@@ -1,0 +1,27 @@
+extends layout 
+
+block content
+    form.box1(action='/home', method="post")
+        input(type='submit', value="LOGOUT")
+
+    form(action="/home/food", method="post")
+        h1 This is where you add food 
+        input(type='text', name='foodname', placeholder='foodname')
+        br
+        br
+        input(type='text', name='kilocalories', placeholder='kilocalories')
+        br
+        br
+        input(type='text', name='proteins', placeholder='proteins')
+        br
+        br
+        input(type='text', name='lipid', placeholder='lipid')
+        br
+        br
+        input(type='text', name='carbohydrates', placeholder='carbohydrates')
+        br
+        br
+        input(type='text', name='water', placeholder='water')
+        br
+        br
+        input(type='submit', value="Add food")
