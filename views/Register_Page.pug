@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .container
+  .row
+    .col-md-6
+      .card
+      form#useform.box(action="/login/register" method="post")
+        h1 Register
+        p.text-muted  Please enter your Username and password!
+        input(type='text', name='username', placeholder='Username', form="useform")
+        input(type='password', name='password', placeholder='Password', form="useform")
+        a(href="/login") You already have an account?
+        input(type='submit' value='Register' form="useform")
+
+    
