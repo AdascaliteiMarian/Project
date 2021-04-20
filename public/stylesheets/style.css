@@ -84,7 +84,7 @@ p {
 }
 
 a {
-  color: white;
+  color: rgb(233, 227, 227);
 }
 
 .box1 {
@@ -93,3 +93,4 @@ a {
   right: 16px;
   font-size: 18px;
 }
+

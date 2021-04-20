@@ -29,7 +29,7 @@ app.use(session({
   saveUninitialized:true
 }))
 
-app.use('/login', LoginRouter);
+app.use('/', LoginRouter);
 app.use('/home',HomePageRouter);
 
 

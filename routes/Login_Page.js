@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var con = require('../DataBase_Config');
 
+
 router.get('/', function(req, res){
     res.render('Login_Page');
 })
@@ -10,13 +11,13 @@ router.post('/', function(req, res){
     var l_username = req.body.l_username;
     var l_password = req.body.l_password;
     var admin = 'yes'
-    con.query('SELECT * FROM users WHERE name = ? AND password = ?', [l_username, l_password], function(err, result){
+    con.query('SELECT * FROM users WHERE name = ? AND password = ? ', [l_username, l_password], function(err, result){
         if(result.length > 0){
             req.session.loggedin = true;
             req.session.l_username = l_username;
-            console.log(result[0]);
+            console.log(result);
         } else {
-            res.send("Incorrect username or password!");
+           console.log("Nop");
         }
         if(err) throw err
     })

@@ -1,0 +1,48 @@
+extends Home_Page
+
+block content
+    nav.navbar.navbar-icon-top.navbar-expand-lg.navbar-dark.bg-dark
+            a.navbar-brand(href='#') 
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.mr-auto
+                    li.nav-item
+                            a.nav-link(href='/home')
+                                i.fa.fa-home
+                                |           Home
+                    li.nav-item.active
+                            a.nav-link(href='/home/foodlist')
+                                i.fa.fa-hamburger
+                                |           Food List
+                form.box1(action='/home', method="post")
+                    input(type='submit', value="LOGOUT")
+    .dropdown
+        button.dropbtn Sort By
+        .dropdown-content
+            form(action="/home/sortAlpha", method="get")
+                button(type='submit') Alphabetical Order
+            form(action="/home/sortByCalories",method ="get")
+                button(type='submit') Most Calories
+    hr
+    ul  
+        each val in result
+            h4= val.foodname
+            h5 Comment:
+            h5= val.comment
+            form#useform(action='/home/changecomment?id="'+val.id+'"', method='post')
+                input(type="text", placeholder=val.id , name='commentchange')
+                input(type="submit")
+            br
+            br
+            h5 Kilocalories:
+            li= val.kilocalories
+            h5 Proteins:
+            li= val.proteins
+            h5 Lipid: 
+            li= val.lipid 
+            h5 Carbohydrates
+            li= val.carbohydrates 
+            h5 Water Percentage
+            li= val.water
+            hr

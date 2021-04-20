@@ -4,24 +4,32 @@ html
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
     title= title
     link(rel='stylesheet', href='/stylesheets/styleHome.css')
   body
     block content
         nav.navbar.navbar-icon-top.navbar-expand-lg.navbar-dark.bg-dark
-            a.navbar-brand(href='#') Navbar
+            a.navbar-brand(href='#') 
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
                 span.navbar-toggler-icon
             #navbarSupportedContent.collapse.navbar-collapse
                 ul.navbar-nav.mr-auto
                     li.nav-item.active
-                        a.nav-link(href='/home')
-                            i.fa.fa-home
-                            |           Home
+                            a.nav-link(href='/home')
+                                i.fa.fa-home
+                                |           Home
+                    li.nav-item
+                            a.nav-link(href='/home/foodlist')
+                                i.fa.fa-hamburger
+                                |           Food List
                 form.box1(action='/home', method="post")
                     input(type='submit', value="LOGOUT")
-        form(action="/home/food", method="post")
-            h1 This is where you add food 
+        form(action="/home/addfood", method="post")
+            h1 This is where you add food
+            input(type='text', name='comment', placeholder='comment')
+            br
+            br
             input(type='text', name='foodname', placeholder='foodname')
             br
             br
@@ -41,4 +49,5 @@ html
             br
             br
             input(type='submit', value="Add food")
+
         
