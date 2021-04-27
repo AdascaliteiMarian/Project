@@ -1,0 +1,35 @@
+extends Home_Page 
+
+block content
+    nav.navbar.navbar-icon-top.navbar-expand-lg.navbar-dark.bg-dark
+            a.navbar-brand(href='#') 
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.mr-auto
+                    li.nav-item.active
+                            a.nav-link(href='/home')
+                                i.fa.fa-home
+                                |           Home
+                    li.nav-item
+                            a.nav-link(href='/home/foodlist')
+                                i.fa.fa-fish
+                                |           Food List 
+                    li.nav-item
+                            a.nav-link(href='/home/User_Profile')
+                                i.fa.fa-male
+                                |           Your Profile
+                form.box1(action='/home', method="post")
+                    input(type='submit', value="LOGOUT")
+    h4 Welcome back
+        p= name
+    select
+        each val in result1
+                option= val.foodname
+    form#form2(action="/home/add_calories", method="post")
+        input(type="submit")
+        input(type="text", name="food_name")
+
+
+
+                

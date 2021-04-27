@@ -40,9 +40,8 @@ router.get('/', function(req, res){
 
 /* Render Food List */
  router.get('/foodlist', function(req, res){
-     var id = req.params.id;
     con.query('SELECT * FROM foods', function(err, result){
-        res.render('food_list', {result, id});
+        res.render('food_list', {result});
     })
  })
 /* Sort Food List by Alphabetical Order */
@@ -60,10 +59,27 @@ router.get('/', function(req, res){
     })
 })
 
-router.post('/changecomment/:id',function(req, res){
-    var id = req.params.id
-    console.log(id);
+router.post('/change_comment?:id',function(req, res){
+    let id = req.query.id
+    let comment = req.body.commentchange;
+    con.query('UPDATE foods SET comment=? WHERE(id=?)',[comment, id], function(err, result){
+        if(err) throw err;
+        console.log("Comment changed at id: " +id);
+        res.redirect('/home/foodlist');
+    })
+})
+router.get('/User_Profile', function(req, res){
+    con.query('SELECT * FROM foods ORDER BY foodname', function(err, result1){
+        res.render('User_Profile', {name: req.session.l_username, result1});
+        console.log(req.session.l_username);
+    })
 })
 
+router.post('/add_calories', function(req, res){
+    let food_name = req.body.food_name;
+    con.query('SELECT kilocalories FROM foods WHERE foodname= ?',[food_name], function(err, result2){
+        res.render('User_Profile', {name: req.session.l_username, result2});
+    })
+})
 
- module.exports = router;
+module.exports = router;

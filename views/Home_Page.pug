@@ -1,9 +1,7 @@
 doctype html
 html
   head
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
     title= title
     link(rel='stylesheet', href='/stylesheets/styleHome.css')
@@ -21,31 +19,35 @@ html
                                 |           Home
                     li.nav-item
                             a.nav-link(href='/home/foodlist')
-                                i.fa.fa-hamburger
-                                |           Food List
+                                i.fa.fa-fish
+                                |           Food List 
+                    li.nav-item
+                            a.nav-link(href='/home/User_Profile')
+                                i.fa.fa-male
+                                |           Your Profile
                 form.box1(action='/home', method="post")
                     input(type='submit', value="LOGOUT")
-        form(action="/home/addfood", method="post")
-            h1 This is where you add food
-            input(type='text', name='comment', placeholder='comment')
+        form.box(action="/home/addfood", method="post")
+            h3 Add a type of food you enjoy
+            input(type='text', name='foodname', placeholder='Food name')
             br
             br
-            input(type='text', name='foodname', placeholder='foodname')
+            input(type='text', name='comment', placeholder='Comment about it')
             br
             br
-            input(type='text', name='kilocalories', placeholder='kilocalories')
+            input(type='text', name='kilocalories', placeholder='Kilocalories')
             br
             br
-            input(type='text', name='proteins', placeholder='proteins')
+            input(type='text', name='proteins', placeholder='Proteins')
             br
             br
-            input(type='text', name='lipid', placeholder='lipid')
+            input(type='text', name='lipid', placeholder='Lipids')
             br
             br
-            input(type='text', name='carbohydrates', placeholder='carbohydrates')
+            input(type='text', name='carbohydrates', placeholder='Carbohydrates')
             br
             br
-            input(type='text', name='water', placeholder='water')
+            input(type='text', name='water', placeholder='Water Percentage')
             br
             br
             input(type='submit', value="Add food")

@@ -13,36 +13,41 @@ block content
                                 |           Home
                     li.nav-item.active
                             a.nav-link(href='/home/foodlist')
-                                i.fa.fa-hamburger
+                                i.fa.fa-fish
                                 |           Food List
+                    li.nav-item
+                            a.nav-link(href='/home/User_Profile')
+                                i.fa.fa-male
+                                |           Your Profile
                 form.box1(action='/home', method="post")
-                    input(type='submit', value="LOGOUT")
+                    input.input1(type='submit', value="LOGOUT")
     .dropdown
         button.dropbtn Sort By
         .dropdown-content
             form(action="/home/sortAlpha", method="get")
                 button(type='submit') Alphabetical Order
             form(action="/home/sortByCalories",method ="get")
-                button(type='submit') Most Calories
+                button(type='submit') Least Calories
+
+
     hr
     ul  
         each val in result
-            h4= val.foodname
-            h5 Comment:
-            h5= val.comment
-            form#useform(action='/home/changecomment?id="'+val.id+'"', method='post')
-                input(type="text", placeholder=val.id , name='commentchange')
-                input(type="submit")
-            br
-            br
-            h5 Kilocalories:
-            li= val.kilocalories
-            h5 Proteins:
-            li= val.proteins
-            h5 Lipid: 
-            li= val.lipid 
-            h5 Carbohydrates
-            li= val.carbohydrates 
-            h5 Water Percentage
-            li= val.water
+            form#useform.box(action="/home/change_comment?id="+val.id+"", method='post')
+                h4= val.foodname
+                h5= val.comment
+                input(type="text", placeholder="Change comment" , name='commentchange')
+                input(type="submit" value="Change")
+                br
+                br
+                h5 Kilocalories:
+                li= val.kilocalories
+                h5 Proteins:
+                li= val.proteins
+                h5 Lipid: 
+                li= val.lipid 
+                h5 Carbohydrates
+                li= val.carbohydrates 
+                h5 Water Percentage
+                li= val.water
             hr
