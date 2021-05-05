@@ -13,4 +13,5 @@ con.connect(function(err){
   console.log("Connected to database");
 })
 
+
 module.exports = con;
