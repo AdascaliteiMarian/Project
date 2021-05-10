@@ -27,7 +27,7 @@ html
                                 i.fa.fa-male
                                 |           Your Profile
                 form.box1(action='/home', method="post")
-                    input(type='submit', value="LOGOUT")
+                    input.logout(type='submit', value="LOGOUT")
         form.box(action="/home/addfood", method="post")
             h3 Add a type of food you enjoy
             input(type='text', name='foodname', placeholder='Food name')

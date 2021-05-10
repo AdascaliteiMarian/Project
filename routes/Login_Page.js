@@ -2,11 +2,12 @@ var express = require('express');
 var router = express.Router();
 var con = require('../DataBase_Config');
 
-
+/* Render Login Page */
 router.get('/', function(req, res){
     res.render('Login_Page');
 })
 
+/* Login request */
 router.post('/', function(req, res){
     var l_username = req.body.l_username;
     var l_password = req.body.l_password;
@@ -33,10 +34,13 @@ router.post('/', function(req, res){
     })
 });
 
+/* Render register page  */
 router.get('/register', function(req, res, next) {
     res.render('Register_Page');
   });
 
+
+/* Register request */
 router.post('/register', function(req, res){
     var username = req.body.username;
     var password = req.body.password;

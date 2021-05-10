@@ -27,19 +27,21 @@ html
                                     i.fa.fa-male
                                     |           Your Profile
                     form.box1(action='/home', method="post")
-                        input(type='submit', value="LOGOUT")
-        h4.profile  Welcome back
+                        input.logout(type='submit', value="LOGOUT")
+        h4.headshot.headshot-1  Welcome back
             p= name
+        hr
+        h4 Select
         form#form2(action="/home/add_calories", method="post")
-            h4 Select food u ate
             select.example(onchange='this.form.submit()', name="example")
                 option
                 each val in result1
                     option(name="food_name")= val.foodname
-        h5 Calories consumed
-            p= x
+        h5 Calories consumed:
+            p= all_food_names
             p= calories
-    div(align='center')
-        <script type="text/javascript" src="https://stylemygcal.com/widget.js"></script>
-        <div class="smgc-calendar-placeholder" id="smgc-cal-rEwSvyEJcBQdtqB4QDmG"></div>
-                
+        form(action="/home/consumed", method="post")
+            input.box4(type="submit")
+        h4 Last meals:
+        ul
+            li= last_meals

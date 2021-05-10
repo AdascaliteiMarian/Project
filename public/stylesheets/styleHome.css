@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: url("https://c.wallhere.com/photos/ad/3b/grapes_fruit_bowls_dark_food-1145613.jpg!d") no-repeat center center fixed; 
+    background: url("https://eskipaper.com/images/black-2.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -35,14 +35,14 @@ body {
 
 
 h1 { color: #ffffff; 
-  font-family: 'Lato', sans-serif; 
+  font-family: 'Itim', cursive;
   font-size: 54px; font-weight: 300; 
   line-height: 58px; 
   margin: 0 0 58px;
  }
 
  h4 {
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Itim', cursive;
   font-weight: 300;
   font-size: 26px;
   line-height: 1.4em;
@@ -51,6 +51,8 @@ h1 { color: #ffffff;
 
  hr {
    background-color: white;
+   height:4px;
+   border-width: 0;
  }
 
  .dropbtn {
@@ -69,7 +71,7 @@ h1 { color: #ffffff;
 }
 
 .box {
-  margin-left: 450px;
+  margin-left: 410px;
   width: 550px;
   padding: 1px;
   position:center;
@@ -101,7 +103,7 @@ h1 { color: #ffffff;
 }
 
 ::placeholder{
-  color:white;
+  color:rgb(238, 238, 238);
 }
 
 
@@ -119,7 +121,7 @@ h1 { color: #ffffff;
   border: 2px solid #2ecc71;
   padding: 14px 40px;
   outline: none;
-  color: white;
+  color: rgb(243, 243, 243);
   border-radius: 24px;
   transition: 0.25s;
   cursor: pointer
@@ -130,7 +132,7 @@ h1 { color: #ffffff;
 }
 
 h3 {
-  font-family: times, Times New Roman, times-roman, georgia, serif;
+  font-family: 'Itim', cursive;
 	color: rgb(255, 255, 255);
 	margin-bottom: 30px;
 	padding: 0px 0px 6px 0px;
@@ -141,7 +143,7 @@ h3 {
 }
 
 h5 {
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Lobster', cursive;
   font-weight: 300;
   font-size: 22px;
   line-height: 1.4em;
@@ -161,6 +163,12 @@ h5 {
   left: 70%;
 }
 
+.logout {
+  color: #f3f3f3;
+  background: rgb(41, 41, 41);
+  border-radius: 25px;
+}
+
 
 .dropbtn {
   background-color: #292b29;
@@ -178,6 +186,7 @@ h5 {
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
+  font-family: 'Itim', cursive;
   display: none;
   position: center;
   background-color:  #000000;
@@ -188,6 +197,7 @@ h5 {
 
 /* Links inside the dropdown */
 .dropdown-content button {
+  font-family: 'Itim', cursive;
   background-color: #000000;
   color: rgb(250, 250, 250);
   padding: 12px 16px;
@@ -213,17 +223,67 @@ li {
 
 
 p {
-  color: #ffffff;
+  color: #f7f7f7;
+  margin: auto;
 }
 
 .yeah {
-  background-image: url(https://livewallpaperhd.com/wp-content/uploads/2017/07/Dark-Wallpaper-Portrait.jpg);
+  background-image: url(https://cutewallpaper.org/21/dark-wallpaper-1920x1080/Dark-Desktop-Backgrounds-1920x1080-Best-Background-Images-.jpg);
 }
 
-.profile {
+.headshot {
+	flex-shrink: 0;
+	margin: 40px;
+	height: calc(50px + 3vw);
+	width: calc(400px + 6vw);
+	border: calc(8px + 0.2vw) solid transparent;
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	background-size: cover;
+	box-sizing: border-box;
+	box-shadow: 0 0 5px 5px rgba(233, 233, 233, 0.5);
   text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
+
+.headshot-1 {
+  margin: auto;
+  margin-top: 40px;
+  text-align: center;
+	border-radius: 30%;
+	background-image: var(--img-url);
+}
+
+
+.example {
+  display: inline;
+  background: rgb(41, 41, 41);
+  height: 20px;
+}
+
+ option{
+   color: blanchedalmond;
+ }
+
+ .box4 {
+  border: 0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #e6e7e6;
+  padding: 14px 40px;
+  outline: none;
+  color: rgb(243, 243, 243);
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer
+ }
+
+
+
+
+
+ 
 
 
 

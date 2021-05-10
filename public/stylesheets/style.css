@@ -3,7 +3,7 @@ body {
   padding: 0;
   font-family: sans-serif;
   background: black;
-  background: linear-gradient(to bottom, #003366 0%, #0099cc 100%);
+  background: url(https://wallpaperaccess.com/full/16692.jpg);
 }
 
 .card {
@@ -94,4 +94,3 @@ a {
   right: 16px;
   font-size: 18px;
 }
-

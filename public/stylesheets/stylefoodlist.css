@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: url("https://wallpaperscute.com/wp-content/uploads/2020/09/HD-Food-Backgrounds-1536x864.jpg") no-repeat center center fixed; 
+    background: url("https://wallpaperaccess.com/full/2562631.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -73,7 +73,7 @@ h1 { color: #ffffff;
 }
 
 .box {
-  margin-left: 450px;
+  margin-left: 490px;
   width: 550px;
   padding: 1px;
   position:center;
@@ -98,7 +98,7 @@ h1 { color: #ffffff;
   padding: 10px 10px;
   width: 250px;
   outline: none;
-  color: rgb(27, 21, 21);
+  color: rgb(255, 255, 255);
   border-radius: 24px;
   transition: 0.25s
   
@@ -111,7 +111,7 @@ h1 { color: #ffffff;
 
 .box input[type="text"]:focus{
   width: 300px;
-  border-color: #2ecc71
+  border-color: #070e0a
 }
 
 .box input[type="submit"] {
@@ -120,7 +120,7 @@ h1 { color: #ffffff;
   display: block;
   margin: 20px auto;
   text-align: center;
-  border: 2px solid #2ecc71;
+  border: 2px solid #d7d8d8;
   padding: 14px 40px;
   outline: none;
   color: white;
@@ -130,7 +130,7 @@ h1 { color: #ffffff;
 }
 
 .box input[type="submit"]:hover {
-  background: #2ecc71
+  background: #050706
 }
 
 h3 {
@@ -228,11 +228,17 @@ li {
 	background-clip: content-box, border-box;
 	background-size: cover;
 	box-sizing: border-box;
-	box-shadow: 0 0 5px 5px rgba(117, 2, 92, 0.5);
+	box-shadow: 0 0 5px 5px rgba(238, 238, 238, 0.5);
   text-align: center;
 }
 
 .headshot-1 {
 	border-radius: 30%;
 	background-image: var(--img-url);
+}
+
+.logout {
+  color: #f3f3f3;
+  background: rgb(41, 41, 41);
+  border-radius: 25px;
 }
