@@ -20,7 +20,6 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
 const monthName = new Date();
 var labels_for_graph = dayName + " " + monthNames[monthName.getMonth()] + " " + dd;
-console.log(labels_for_graph)
 
 
 /* Render Home page */
@@ -80,8 +79,16 @@ router.get('/', function(req, res){
  })
 
 /* Sort Food List by number of least Calories*/
- router.get('/sortByCalories',function(req, res){
+ router.get('/sortByLeastCalories',function(req, res){
     con.query('SELECT * FROM foods ORDER BY kilocalories', function(err, result){
+        res.render('food_list',{result});
+        console.log("List sorted by number of calories");
+    })
+})
+
+/* Sort Food List by number of most Calories*/
+router.get('/sortByMostCalories',function(req, res){
+    con.query('SELECT * FROM foods ORDER BY kilocalories DESC', function(err, result){
         res.render('food_list',{result});
         console.log("List sorted by number of calories");
     })
