@@ -1,0 +1,88 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/settings.css')
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  body
+    block content
+    nav.navbar.navbar-icon-top.navbar-expand-lg.navbar-dark.bg-dark
+                a.navbar-brand(href='#') 
+                button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                    span.navbar-toggler-icon
+                #navbarSupportedContent.collapse.navbar-collapse
+                    ul.navbar-nav.mr-auto
+                        li.nav-item.active
+                                a.nav-link(href='/home')
+                                    i.fa.fa-home
+                                    |           Home
+                        li.nav-item
+                                a.nav-link(href='/home/foodlist')
+                                    i.fa.fa-fish
+                                    |           Food List 
+                        li.nav-item
+                                a.nav-link(href='/home/User_Profile')
+                                    i.fa.fa-male
+                                    |           Your Profile
+                        li.nav-item
+                                a.nav-link(href='/home/settings')
+                                    i.fa.fa-cog
+                                    |           Settings
+                    form.box1(action='/home', method="post")
+                        input.logout(type='submit', value="LOGOUT")
+    .main-body
+    .row.gutters-sm
+    .row.justify-content-md-center
+      .col-md-auto.mb-3
+        .card
+          .card-body
+            .d-flex.flex-column.align-items-center.text-center
+              img.rounded-circle(src='https://bootdey.com/img/Content/avatar/avatar7.png', alt='Admin', width='131')
+              .mt-3
+                h4= name
+                p.text-secondary.mb-1 Full Stack Developer
+                p.text-muted.font-size-sm Bay Area, San Francisco, CA
+form(action="/home/change_settings", method="post")
+  .mb-3
+    label.form-label(for='formGroupExampleInput') Change Name
+    input#formGroupExampleInput.form-control(type='text', placeholder='Name',name = 'namess')
+  
+  .mb-3
+    label.form-label(for='formGroupExampleInput') Change Title
+    input#formGroupExampleInput.form-control(type='text', placeholder='Title',name = 'title')
+
+  .mb-3
+    label.form-label(for='formGroupExampleInput2') Change Email
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Email',name = 'email')
+
+  .mb-3
+    label.form-label(for='formGroupExampleInput2') Change Phone
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Phone',name = 'phone')
+
+  .mb-3
+    label.form-label(for='formGroupExampleInput2') Change Address
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Address',name = 'address')
+
+  .mb-3
+    label.form-label(for='formGroupExampleInput2') Github link
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Github',name = 'github')
+
+  .mb-3
+    label.form-label(for='formGroupExampleInput2') Twitter Link
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Twitter',name = 'twitter')
+
+  .mb-3
+    label.form-label(for='formGroupExampleInput2') Instagram Link
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Instagram',name = 'instagram')
+
+  .mb-3
+    label.form-label(for='formGroupExampleInput2') Facebook link
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Facebook',name = 'facebook')
+    br
+    input(type='submit', value="Submit Changes")
+
+
+
+      
+

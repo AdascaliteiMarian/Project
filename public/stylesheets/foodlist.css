@@ -1,0 +1,253 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(244,244,244,1) 7%);
+}
+
+
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+  color: rgb(245, 245, 245);
+  position: relative;
+  width: 36px;
+  font-size: 24px;
+}
+
+.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
+  color: white;
+  font-size: 0.75rem;
+  position: absolute;
+  right: 0;
+  font-family: sans-serif;
+}
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+  color: white;
+  top: 3px;
+  line-height: 12px;
+}
+
+ hr {
+      width: 100%;
+        height: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #0a0a0a;
+        color: rgb(12, 9, 9);
+        margin-left: 123px;
+ }
+
+ .dropbtn {
+  background-color: #ffffff;
+  color: #ffffff;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.box {
+  margin-left: 490px;
+  width: 550px;
+  padding: 1px;
+  position:center;
+  top: 30%;
+  left: 20%;
+  opacity: 1;
+  text-align: center;
+  transition: 0.25s;  
+  margin-top: 10px;
+  width: max-content; 
+  padding: 0.5em 1em;
+  border-radius: 3em;
+}
+
+.box input[type="text"] {
+  border: 0;
+  background: none;
+  display: block;
+  margin: 1px auto;
+  text-align: center;
+  border: 3px solid #f8f8f8;
+  padding: 10px 10px;
+  width: 250px;
+  outline: none;
+  color: rgb(255, 255, 255);
+  border-radius: 24px;
+  transition: 0.25s
+  
+}
+
+::placeholder{
+  color:rgb(255, 255, 255);
+}
+
+
+.box input[type="text"]:focus{
+  width: 300px;
+  border-color: #ffffff
+}
+
+.box input[type="submit"] {
+  border: 0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #ffffff;
+  padding: 14px 40px;
+  outline: none;
+  color: rgb(255, 255, 255);
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer
+}
+
+.box input[type="submit"]:hover {
+  background: #ffffff
+}
+h1 {
+  font-family: 'Roboto Slab', serif;
+  margin-left:123px;
+  color: #000000; 
+  margin-top: 1px;
+}
+
+h2 {
+  font-family: 'Roboto Slab', serif;
+	color: rgb(0, 0, 0);
+}
+
+h3 {
+  font-family: 'Roboto Slab', serif;
+	color: rgb(0, 0, 0);
+}
+
+h4 {
+  font-family: 'Roboto Slab', serif;
+  margin-left:123px;
+  font-weight: 300;
+  font-size: 26px;
+  line-height: 1.4em;
+  color: #000000;
+  font-weight: bold;
+}
+
+h5 {
+  font-family: 'Roboto Slab', serif;
+  margin-left:123px;
+  font-weight: bold;
+  font-size: 38px;
+  color: #020202;
+  margin-bottom:20px;
+  margin-top: 20px;
+ }
+
+ h6 {
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  margin-left:123px;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  margin-right: 490px;
+  max-width: 620px;
+  margin-bottom: 20px;
+ }
+
+ img {
+   margin-left:123px;
+ }
+
+.box1 {
+  position:relative;
+  top: 1px;
+  left: 62%;
+}
+
+
+.dropbtn {
+  background-color: #363636;
+  color: rgb(88, 88, 88);
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: center;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: center;
+  background-color:  #ffffff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content button {
+  background-color: #ffffff;
+  color: rgb(128, 127, 127);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: inline;
+  border: #ffffff;
+}
+
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f8f8f8;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #f1f1f1;}
+
+li {
+  color: #ebebeb;
+  list-style-type: none;
+}
+
+.logout {
+  color: #ffffff;
+  background: rgb(0, 0, 0);
+  border-radius: 5px;
+}
+p {
+  margin-left: 123px;
+  font-size: 29px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+ol {
+  list-style-type: square;
+}
+
+li.ch {
+  margin-left: 123px;
+  color: #000;
+  list-style-type:square;
+  max-width: 620px;
+  font-size: 20px;
+}
+
+p.desc {
+  margin-left: 99px;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.videodiv {
+  margin-left: 123px;
+}

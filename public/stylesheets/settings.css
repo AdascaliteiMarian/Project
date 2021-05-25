@@ -1,0 +1,38 @@
+body {
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(244,244,244,1) 7%);
+}
+
+.mb-3 {
+    margin-left: 100px;
+}
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+    color: white;
+    position: relative;
+    width: 36px;
+    font-size: 24px;
+}
+  
+.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
+    color: white;
+    font-size: 0.75rem;
+    position: absolute;
+    right: 0;
+    font-family: sans-serif;
+}
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+    color: white;
+    top: 3px;
+    line-height: 12px;
+}
+  
+.logout {
+      color: #f3f3f3;
+      background: rgb(41, 41, 41);
+      border-radius: 5px;
+}
+
+.box1 {
+    position:relative;
+    top: 1px;
+    left: 62%;
+  }

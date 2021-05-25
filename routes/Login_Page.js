@@ -2,6 +2,13 @@ var express = require('express');
 var router = express.Router();
 var con = require('../DataBase_Config');
 
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+today = yyyy + '-' + mm + '-' + dd;
+var calories = 0;
+
 /* Render Login Page */
 router.get('/', function(req, res){
     res.render('Login_Page');
@@ -46,10 +53,14 @@ router.post('/register', function(req, res){
     var password = req.body.password;
     var admin = "no";
     if(username != undefined && password !=undefined){
+    con.query('INSERT INTO calendar(person_name,event_date,calories) VALUES(?,?,?)',[username,today,calories],function(err, result){
+        if(err) throw err
+        console.log("created");
+    });
     con.query("INSERT INTO users (name, password, IsAdmin) VALUES(?,?,?)",[username, password, admin], function(err, result){
       if(err) throw err
       console.log("User: " + username + " with the password: " + password + " was inserted into the database. Admin :" + admin);
-      res.redirect('/login');
+      res.redirect('/');
     })
   }
   })
