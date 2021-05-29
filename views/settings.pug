@@ -33,7 +33,6 @@ html
                         input.logout(type='submit', value="LOGOUT")
     .main-body
     .row.gutters-sm
-    .row.justify-content-md-center
       .col-md-auto.mb-3
         .card
           .card-body
@@ -41,13 +40,9 @@ html
               img.rounded-circle(src='https://bootdey.com/img/Content/avatar/avatar7.png', alt='Admin', width='131')
               .mt-3
                 h4= name
-                p.text-secondary.mb-1 Full Stack Developer
-                p.text-muted.font-size-sm Bay Area, San Francisco, CA
+                p.text-secondary.mb-1= title
+                p.text-muted.font-size-sm= address
 form(action="/home/change_settings", method="post")
-  .mb-3
-    label.form-label(for='formGroupExampleInput') Change Name
-    input#formGroupExampleInput.form-control(type='text', placeholder='Name',name = 'namess')
-  
   .mb-3
     label.form-label(for='formGroupExampleInput') Change Title
     input#formGroupExampleInput.form-control(type='text', placeholder='Title',name = 'title')

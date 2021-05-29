@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "alert": "^5.0.10",
     "autocompleter": "^6.1.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^5.0.0",

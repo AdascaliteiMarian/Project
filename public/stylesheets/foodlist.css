@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
   background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(244,244,244,1) 7%);
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 
@@ -151,4 +152,9 @@ p.desc {
 .btn.btn-secondary.dropdown-toggle {
   color:white;
   background-color: #000;
+}
+
+a.yeah {
+  color: rgb(8, 8, 8);
+  margin-left: 123px;
 }

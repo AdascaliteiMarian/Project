@@ -114,9 +114,9 @@ html
                             each val in result1
                                 option(name="food_name")= val.foodname
                 p= all_food_names
-                p= calories
+                p= calories_counted
                 form(action="/home/consumed", method="post")
-                    input.box4(type="submit")
+                    input.box4(type="submit" value="Submit")
           .col-sm-6.mb-3
             .card.h-100
               .card-body
@@ -124,10 +124,11 @@ html
                   i.material-icons.text-info.mr-2 Last meals
                 ul
                     li= last_meals
-label(for='start') Calories on date:
-p.dd= calories_on_date
 form(action="/home/set_date_calories", method="post")
-  input#start.da(type='date', name='calendar_date', min='2019-01-01', max='2023-12-31',onchange='this.form.submit()')
+  .col
+    label Calories on date:
+    p(style='color:white;')= calories_on_date
+    input#start.da(type='date', name='calendar_date', min='2019-01-01', max='2023-12-31',onchange='this.form.submit()')
   div
     canvas#myChart
   p#Monday(value = graph[0])

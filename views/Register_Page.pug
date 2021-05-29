@@ -8,6 +8,7 @@ block content
       form#useform.box(action="/register" method="post")
         h1 
           strong Register
+        p(style="color:red;").text-muted= wrong_register
         p.text-muted  
           strong Please enter your username and password!
         input(type='text', name='username', placeholder='Username', form="useform")
@@ -17,6 +18,6 @@ block content
         br
         br
         br
-  <div style="position: absolute; bottom: 5px">
+  div(style='position: absolute; bottom: 5px')
     a(href="mailto:maryano1096@gmail.com") For any inconveniences press here to write a complaint
     

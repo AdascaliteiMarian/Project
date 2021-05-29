@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var con = require('../DataBase_Config');
-var calories = 0;
-var count = 0;
 
+/* Create labels with dates for graph */
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -23,10 +22,11 @@ var labels_for_graph = dayName + " " + monthNames[monthName.getMonth()] + " " + 
 
 
 /* Render Home page */
+var warning_not_admin;
 router.get('/', function(req, res){
     if(req.session.loggedin){
         USER_NAME = req.session.l_username;
-        res.render('Home_Page');
+        res.render('Home_Page',{warning_not_admin});
     } else {
         res.set('Content-Type', 'text/plain')
     }
@@ -35,12 +35,19 @@ router.get('/', function(req, res){
 /* Logout Request */
  router.post('/', function(req, res){
      req.session.destroy(function(){
-         console.log('User logged out');
      })
      res.redirect('/');
  })
 
+ /* Render Food List */
+ router.get('/foodlist', function(req, res){
+    con.query('SELECT * FROM foods', function(err, result){
+        res.render('food_list', {result});
+    })
+ })
+
  /* Add food to DB */
+ var letters_instead='U wrote letters where they are not supposed to go';
  router.post('/addfood' ,function(req, res){
     if(req.session.isadmin == true){
         let foodname = req.body.foodname;
@@ -51,23 +58,20 @@ router.get('/', function(req, res){
         let water = req.body.water;
         let comment = req.body.comment;
         if(foodname == '' || kilocalories == '' || water == '' || carbohydrates == '' || lipid == '' || proteins == ''){
-            console.log('All have to be completed');
-            res.send("U have to fill every input");
+            let warning_inputs = 'You have to fill every input'
+            res.render('Home_Page',{warning_inputs});
         } else {
-        con.query('INSERT INTO foods(foodname,kilocalories, proteins,lipid,carbohydrates,water,comment) VALUES(?,?,?,?,?,?,?)',[foodname,kilocalories,proteins,lipid,carbohydrates,water,comment], function(err, result){
-    })
-}
+            con.query('INSERT INTO foods(foodname,kilocalories, proteins,lipid,carbohydrates,water,comment) VALUES(?,?,?,?,?,?,?)',[foodname,kilocalories,proteins,lipid,carbohydrates,water,comment], function(err, result){
+                if(err) {
+                    res.render('Home_Page',{letters_instead});
+                }
+            })
+        }
+    res.redirect('/home/foodlist')
     } else {
-        console.log(req.session.isadmin);
-        res.send("You are not an admin to be able to insert foods");
+        warning_not_admin = "You are not an admin to be able to insert foods";
+        res.redirect('/home')
     }
- })
-
-/* Render Food List */
- router.get('/foodlist', function(req, res){
-    con.query('SELECT * FROM foods', function(err, result){
-        res.render('food_list', {result});
-    })
  })
 
 /* Sort Food List by Alphabetical Order */
@@ -94,8 +98,6 @@ router.get('/sortByMostCalories',function(req, res){
     })
 })
 
-var copiedFood;
-var all_food_names = new Array();
 
 /* User info */
 var phone;
@@ -111,7 +113,7 @@ var twitter;
 
 
 var last_tracked_date = 0;
-var helper = 0;
+var helper_date = 0;
 var flag_variable = 0;
 var number_of_entries = 0;
 var graph_labels = new Array();
@@ -122,6 +124,10 @@ for(var i = 0; i < 7; ++i){
 }
 
 /* Render the user profile/graph dates */
+var copiedFood;
+var all_food_names = new Array();
+var calories_counted = 0;
+var count = 0;
 router.get('/User_Profile', function(req, res){
     con.query('SELECT * FROM users WHERE name = ?',[USER_NAME], function(err,result){
       title = result[0].title;
@@ -131,8 +137,20 @@ router.get('/User_Profile', function(req, res){
       instagram = result[0].instagram;
       twitter = result[0].twitter;
     })
+    con.query('INSERT INTO helper(yesterday) VALUES(?)',[today], function(err,result){
+        if(err) throw err
+    })
+    con.query('SELECT * FROM helper ORDER BY yesterday DESC',[today], function(err,result){
+        if(err) throw err
+        helper_date = result[0].yesterday;
+    })
+    con.query('SELECT COUNT(event_date) as cnt FROM calendar WHERE person_name = ?', [USER_NAME] , function(err,result){
+        if(err) throw err
+        number_of_entries = result[0].cnt;
+    })
     con.query('SELECT graph_label_date FROM calendar WHERE person_name = ? ORDER BY event_date DESC', [USER_NAME], function(err,result){
         console.log(number_of_entries)
+        console.log(result)
         for(var i = 0; i < number_of_entries; ++i){
             if(result[i] != " " || number_of_entries > 0){
                 graph_labels[i] = result[i].graph_label_date;
@@ -140,14 +158,6 @@ router.get('/User_Profile', function(req, res){
                 graph_labels[i] = "No date registered";
             }
         }
-    })
-    con.query('INSERT INTO helper(yesterday) VALUES(?)',[today], function(err,result){
-    })
-    con.query('SELECT * FROM helper ORDER BY yesterday DESC',[today], function(err,result){
-        helper = result[0].yesterday;
-    })
-    con.query('SELECT COUNT(event_date) as cnt FROM calendar WHERE person_name = ?', [USER_NAME] , function(err,result){
-        number_of_entries = result[0].cnt;
     })
     con.query('SELECT * FROM calendar WHERE person_name = ? ORDER BY event_date DESC',[USER_NAME], function(err, result){
         if(err) throw err
@@ -159,7 +169,7 @@ router.get('/User_Profile', function(req, res){
             }
         }
         last_tracked_date = result[0].event_date;
-        if(helper.toString() == last_tracked_date.toString()){
+        if(helper_date.toString() == last_tracked_date.toString()){
             flag_variable = 1;
         }
     })
@@ -170,32 +180,33 @@ router.get('/User_Profile', function(req, res){
         console.log(last_meals);
     })
     if(count > 0){
-        calories = 0;
+        calories_counted = 0;
     }
     count = 0;
     all_food_names = "";
     let result2="";
-    con.query('SELECT * FROM foods ORDER BY foodname', function(err, result1){
-        res.render('User_Profile', {name: req.session.l_username, result1, result2,last_meals, address, phone, calories_on_date,graph,graph_labels,title,email,github,facebook,instagram,twitter});
-        copiedFood = result1;
-    })
+        con.query('SELECT * FROM foods ORDER BY foodname', function(err, result1){
+            res.render('User_Profile', {name: req.session.l_username, result1, result2,last_meals, address, phone, calories_on_date,graph,graph_labels,title,email,github,facebook,instagram,twitter});
+            copiedFood = result1;
+        })
 })
 
 /* Add up calories and show the food that was added */
 router.post('/add_calories', function(req, res){
     var food_name = req.body.example;
     var result1 = copiedFood;
+    console.log(food_name)
     con.query('SELECT kilocalories FROM foods WHERE foodname= ?',[food_name], function(err, result2){
         if(err) throw err
         if(count == 0){
-            calories = result2[0].kilocalories;
+            calories_counted = result2[0].kilocalories;
             ++count;
             all_food_names = all_food_names + "  " + food_name;
         } else {
             all_food_names = all_food_names + " + " + food_name;
-            calories = calories + result2[0].kilocalories;
+            calories_counted = calories_counted + result2[0].kilocalories;
         }
-        res.render('User_Profile', {name: req.session.l_username, result1, calories, all_food_names,last_meals, address, phone,calories_on_date,graph,graph_labels,title,email,github,facebook,instagram,twitter});
+        res.render('User_Profile', {name: req.session.l_username, result1, calories_counted, all_food_names,last_meals, address, phone,calories_on_date,graph,graph_labels,title,email,github,facebook,instagram,twitter});
     })
 })
 /* Show calories consumed */
@@ -203,30 +214,26 @@ router.post('/consumed', function(req, res){
     console.log(all_food_names);
     con.query('UPDATE users SET consumed = ? WHERE Name = ?',[all_food_names,req.session.l_username],function(err, result){
         if(err) throw err
-        console.log("done");
         res.redirect('/home/User_Profile');
     });
     if(flag_variable == 0){
-        con.query('INSERT INTO calendar(person_name, event_date, calories,graph_label_date) VALUES(?,?,?,?)',[USER_NAME,today,calories,labels_for_graph],function(err, result){
+        con.query('INSERT INTO calendar(person_name, event_date, calories,graph_label_date) VALUES(?,?,?,?)',[USER_NAME,today,calories_counted,labels_for_graph],function(err, result){
             if(err) throw err
-                console.log("donex2");
     });
     } else {
         con.query('DELETE FROM calendar WHERE event_date = ? AND person_name = ? ',[today,USER_NAME],function(err, result){
-            if(err) throw err
-                console.log("donex22");
+            if(err) throw err  
         });
-        con.query('INSERT INTO calendar(person_name, event_date, calories,graph_label_date) VALUES(?,?,?,?)',[USER_NAME,today,calories,labels_for_graph],function(err, result){
+        con.query('INSERT INTO calendar(person_name, event_date, calories,graph_label_date) VALUES(?,?,?,?)',[USER_NAME,today,calories_counted,labels_for_graph],function(err, result){
             if(err) throw err
-                console.log("donex2");
     });
 }
 })
 
 /* Show calories on date */ 
 router.post('/set_date_calories', function(req,res){
-  var ff = req.body.calendar_date;
-  con.query('SELECT calories FROM calendar WHERE person_name = ? AND event_date = ?',[USER_NAME,ff],function(err, result){
+  var calendar_date = req.body.calendar_date;
+  con.query('SELECT calories FROM calendar WHERE person_name = ? AND event_date = ?',[USER_NAME,calendar_date],function(err, result){
       if(err) throw err
     if(result != ""){
     calories_on_date = result[0].calories;
@@ -235,23 +242,15 @@ router.post('/set_date_calories', function(req,res){
     }
     res.redirect('/home/User_Profile')
 });
-    console.log(ff);
 })
 
 /* Render Settings page */
 router.get('/settings', function(req, res){
-    res.render('settings',{name: USER_NAME})
+    res.render('settings',{name: USER_NAME,address,title})
 })
 
 /* Chnage user info  */
 router.post('/change_settings' ,function(req, res){
-        let name = req.body.namess
-        if(name != ""){
-            con.query('UPDATE users SET name = ? WHERE name = ?', [name,USER_NAME],function(err,result){
-                if(err) throw err
-                console.log('yes name')
-            })
-        }
         let title = req.body.title
         if(title != ""){
             con.query('UPDATE users SET title = ? WHERE name = ?', [title,USER_NAME],function(err,result){
@@ -303,6 +302,5 @@ router.post('/change_settings' ,function(req, res){
         }
         res.redirect('/home/User_Profile')
 })
-
 
 module.exports = router;

@@ -1,5 +1,6 @@
 body {
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(244,244,244,1) 7%);
+    overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 .mb-3 {
@@ -35,4 +36,4 @@ body {
     position:relative;
     top: 1px;
     left: 62%;
-  }
+}

@@ -1,7 +1,7 @@
 body{
     color: #1a202c;
     text-align: left;
-    background-image: url(https://c.wallhere.com/photos/09/73/3D_graphics_voxels_simple_dark_background-1735811.jpg!d);
+    background-image: url(https://www.solidbackgrounds.com/images/1920x1080/1920x1080-davys-grey-solid-color-background.jpg);
 }
 .main-body {
     padding: 15px;
@@ -96,8 +96,10 @@ body{
   .da {
       margin-left: 15px;
   }
-  p.dd {
-      color: white;
-      margin-left: 15px;
-  }
-  
+  label {
+    margin-top: -16px;
+    text-align: right;
+    clear: both;
+    float:left;
+    margin-right:0px;
+}

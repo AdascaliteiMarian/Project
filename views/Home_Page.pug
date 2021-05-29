@@ -34,9 +34,12 @@ html
                     input.logout(type='submit', value="LOGOUT")
         form.box(action="/home/addfood", method="post")
             h3 Add a type of food you enjoy
+            h4(style='color:red;')= letters_instead
+            h4(style='color:white;')= warning_not_admin
+            h4(style='color:white;')= warning_inputs
             input(type='text', name='foodname', placeholder='Food name')
             br
-            input(type='text', name='comment', placeholder='Comment about it')
+            input(type='text', name='comment', placeholder='Description')
             
             br
             input(type='text', name='kilocalories', placeholder='Kilocalories')
