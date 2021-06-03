@@ -11,30 +11,7 @@ html
 
 body
     block content
-        nav.navbar.navbar-icon-top.navbar-expand-lg.navbar-dark.bg-dark
-                a.navbar-brand(href='#') 
-                button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
-                    span.navbar-toggler-icon
-                #navbarSupportedContent.collapse.navbar-collapse
-                    ul.navbar-nav.mr-auto
-                        li.nav-item
-                                a.nav-link(href='/food')
-                                    i.fa.fa-home
-                                    |           Home
-                        li.nav-item.active
-                                a.nav-link(href='/food/list')
-                                    i.fa.fa-fish
-                                    |           Food List
-                        li.nav-item
-                                a.nav-link(href='/user-profile')
-                                    i.fa.fa-male
-                                    |           Your Profile
-                        li.nav-item
-                                a.nav-link(href='/settings')
-                                    i.fa.fa-cog
-                                    |           Settings
-                    form.box1(action='/food', method="post")
-                        input.logout(type='submit', value="LOGOUT")      
+        include navbar.pug    
     h4.first CULINARI JOURNEYS
     h1 The world's largest database of foods
     div(style='background-color:#000000; height:4px; width:100%; margin-left:123px;')
