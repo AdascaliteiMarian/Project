@@ -29,7 +29,7 @@ router.get('/', function(req, res){
 
  /* Add food to DB */
  var letters_instead='U wrote letters where they are not supposed to go';
- router.post('/add' , function(req, res){
+ router.post('/add' ,function(req, res){
     if(req.session.isadmin == true){
         let foodname = req.body.foodname;
         let kilocalories = req.body.kilocalories;
