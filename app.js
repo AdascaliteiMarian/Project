@@ -7,8 +7,8 @@ var bodyparser = require('body-parser');
 var session = require('express-session');
 
 
-var LoginRouter = require('./routes/Login_Page');
-var HomePageRouter = require('./routes/Home_Page');
+var LoginRouter = require('./routes/User');
+var HomePageRouter = require('./routes/Food');
 
 var app = express();
 
@@ -30,7 +30,7 @@ app.use(session({
 }))
 
 app.use('/', LoginRouter);
-app.use('/home',HomePageRouter);
+app.use('/food',HomePageRouter);
 
 
 // catch 404 and forward to error handler

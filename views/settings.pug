@@ -14,22 +14,22 @@ html
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.mr-auto
                         li.nav-item.active
-                                a.nav-link(href='/home')
+                                a.nav-link(href='/food')
                                     i.fa.fa-home
                                     |           Home
                         li.nav-item
-                                a.nav-link(href='/home/foodlist')
+                                a.nav-link(href='/food/list')
                                     i.fa.fa-fish
                                     |           Food List 
                         li.nav-item
-                                a.nav-link(href='/home/User_Profile')
+                                a.nav-link(href='/user-profile')
                                     i.fa.fa-male
                                     |           Your Profile
                         li.nav-item
-                                a.nav-link(href='/home/settings')
+                                a.nav-link(href='/settings')
                                     i.fa.fa-cog
                                     |           Settings
-                    form.box1(action='/home', method="post")
+                    form.box1(action='/food', method="post")
                         input.logout(type='submit', value="LOGOUT")
     .main-body
     .row.gutters-sm
@@ -42,7 +42,7 @@ html
                 h4= name
                 p.text-secondary.mb-1= title
                 p.text-muted.font-size-sm= address
-form(action="/home/change_settings", method="post")
+form(action="/change-settings", method="post")
   .mb-3
     label.form-label(for='formGroupExampleInput') Change Title
     input#formGroupExampleInput.form-control(type='text', placeholder='Title',name = 'title')
@@ -80,4 +80,3 @@ form(action="/home/change_settings", method="post")
 
 
       
-

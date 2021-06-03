@@ -15,22 +15,22 @@ html
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.mr-auto
                         li.nav-item.active
-                                a.nav-link(href='/home')
+                                a.nav-link(href='/food')
                                     i.fa.fa-home
                                     |           Home
                         li.nav-item
-                                a.nav-link(href='/home/foodlist')
+                                a.nav-link(href='/food/list')
                                     i.fa.fa-fish
                                     |           Food List 
                         li.nav-item
-                                a.nav-link(href='/home/User_Profile')
+                                a.nav-link(href='/user-profile')
                                     i.fa.fa-male
                                     |           Your Profile
                         li.nav-item
-                                a.nav-link(href='/home/settings')
+                                a.nav-link(href='/settings')
                                     i.fa.fa-cog
                                     |           Settings
-                    form.box1(action='/home', method="post")
+                    form.box1(action='/food', method="post")
                         input.logout(type='submit', value="LOGOUT")
   .main-body
     .row.gutters-sm
@@ -108,14 +108,14 @@ html
                 h6.d-flex.align-items-center.mb-3
                   i.material-icons.text-info.mr-2 Calories consumed
                 small Select food
-                    form#form2(action="/home/add_calories", method="post")
+                    form#form2(action="/add-user-calories", method="post")
                         select.example(onchange='this.form.submit()', name="example")
                             option
                             each val in result1
                                 option(name="food_name")= val.foodname
                 p= all_food_names
                 p= calories_counted
-                form(action="/home/consumed", method="post")
+                form(action="/user-consumed", method="post")
                     input.box4(type="submit" value="Submit")
           .col-sm-6.mb-3
             .card.h-100
@@ -124,7 +124,7 @@ html
                   i.material-icons.text-info.mr-2 Last meals
                 ul
                     li= last_meals
-form(action="/home/set_date_calories", method="post")
+form(action="/search-user-calories", method="post")
   .col
     label Calories on date:
     p(style='color:white;')= calories_on_date
@@ -191,4 +191,3 @@ script.
     options:{}
   };
   var myChart = new Chart(document.getElementById('myChart'),config);
-

@@ -18,22 +18,22 @@ body
                 #navbarSupportedContent.collapse.navbar-collapse
                     ul.navbar-nav.mr-auto
                         li.nav-item
-                                a.nav-link(href='/home')
+                                a.nav-link(href='/food')
                                     i.fa.fa-home
                                     |           Home
                         li.nav-item.active
-                                a.nav-link(href='/home/foodlist')
+                                a.nav-link(href='/food/list')
                                     i.fa.fa-fish
                                     |           Food List
                         li.nav-item
-                                a.nav-link(href='/home/User_Profile')
+                                a.nav-link(href='/user-profile')
                                     i.fa.fa-male
                                     |           Your Profile
                         li.nav-item
-                                a.nav-link(href='/home/settings')
+                                a.nav-link(href='/settings')
                                     i.fa.fa-cog
                                     |           Settings
-                    form.box1(action='/home', method="post")
+                    form.box1(action='/food', method="post")
                         input.logout(type='submit', value="LOGOUT")      
     h4.first CULINARI JOURNEYS
     h1 The world's largest database of foods
@@ -43,21 +43,14 @@ body
             | Sort by
         ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
             li  
-                form(action='/home/sortAlpha', method="get")
+                form(action='/food/sort-alpha', method="get")
                     button.dropdown-item(href='#') Alphabetical Order
             li
-                form(action='/home/sortByLeastCalories', method="get")
+                form(action='/food/sort-by-least-calories', method="get")
                     button.dropdown-item(href='#') Least Calories
             li
-                form(action='/home/sortByMostCalories', method="get")
+                form(action='/food/sort-by-most-calories', method="get")
                     button.dropdown-item(href='#') Most Calories
-
-           
-                
-
-
-
-
 each val in result
         h5= val.foodname
         img(src=val.image, alt="",width='400', height='300')
