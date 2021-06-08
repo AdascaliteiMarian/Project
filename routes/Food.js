@@ -14,22 +14,22 @@ router.get('/', function(req, res){
 })
 
 /* Logout Request */
- router.post('/', function(req, res){
+router.post('/', function(req, res){
      req.session.destroy(function(){
-     })
+    })
      res.redirect('/');
- })
+})
 
  /* Render Food List */
- router.get('/list', function(req, res){
+router.get('/list', function(req, res){
     con.query('SELECT * FROM foods', function(err, result){
         res.render('food_list', {result});
     })
- })
+})
 
  /* Add food to DB */
- var letters_instead='U wrote letters where they are not supposed to go';
- router.post('/add' ,function(req, res){
+var letters_instead='U wrote letters where they are not supposed to go';
+router.post('/add' ,function(req, res){
     if(req.session.isadmin == true){
         let foodname = req.body.foodname;
         let kilocalories = req.body.kilocalories;
@@ -53,18 +53,18 @@ router.get('/', function(req, res){
         warning_not_admin = "You are not an admin to be able to insert foods";
         res.redirect('/food')
     }
- })
+})
 
 /* Sort Food List by Alphabetical Order */
- router.get('/sort-alpha', function(req, res){
+router.get('/sort-alpha', function(req, res){
      con.query('SELECT * FROM foods ORDER BY foodname', function(err, result){
          res.render('food_list', {result});
          console.log("List sorted Alphabetically");
      })
- })
+})
 
 /* Sort Food List by number of least Calories*/
- router.get('/sort-by-least-calories', function(req, res){
+router.get('/sort-by-least-calories', function(req, res){
     con.query('SELECT * FROM foods ORDER BY kilocalories', function(err, result){
         res.render('food_list', {result});
         console.log("List sorted by number of calories");

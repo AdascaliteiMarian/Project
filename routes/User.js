@@ -22,12 +22,12 @@ var labels_for_graph = dayName + " " + monthNames[monthName.getMonth()] + " " + 
 
 
 var calories = 0;
-var wrong;;
+var wrong_login;
 var wrong_register;
 
 /* Render Login Page */
 router.get('/', function(req, res){
-    res.render('Login_Page', {wrong});
+    res.render('Login_Page', {wrong_login});
 })
 
 /* Login request */
@@ -56,7 +56,7 @@ router.post('/', function(req, res){
                 }
             })
         } else {
-            wrong= "Incorrect Username Or Password"
+            wrong_login= "Incorrect Username Or Password"
             res.redirect('/')
         }
     }, 1000) 
@@ -99,7 +99,6 @@ var github;
 var facebook;
 var instagram;
 var twitter;
-
 
 var last_tracked_date = 0;
 var helper_date = 0;
@@ -255,7 +254,6 @@ router.post('/change-user-info', function(req, res){
     all_querys[7] = 'UPDATE users SET twitter = ? WHERE name = ?'
     for(var i = 0; i < array_user_info.length; ++i){
         if(array_user_info[i] != ""){
-            console.log(all_querys[i] + "     " + array_user_info[i]);
             con.query(all_querys[i],[array_user_info[i],USER_NAME],function(err,result){
                 if(err) throw err
             })
