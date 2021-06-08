@@ -19,38 +19,38 @@ html
                 h4= name
                 p.text-secondary.mb-1= title
                 p.text-muted.font-size-sm= address
-form(action="/change-settings", method="post")
+form(action="/change-user-info", method="post")
   .mb-3
     label.form-label(for='formGroupExampleInput') Change Title
-    input#formGroupExampleInput.form-control(type='text', placeholder='Title',name = 'title')
+    input#formGroupExampleInput.form-control(type='text', placeholder='Title', name = 'title')
 
   .mb-3
     label.form-label(for='formGroupExampleInput2') Change Email
-    input#formGroupExampleInput2.form-control(type='text', placeholder='Email',name = 'email')
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Email', name = 'email')
 
   .mb-3
     label.form-label(for='formGroupExampleInput2') Change Phone
-    input#formGroupExampleInput2.form-control(type='text', placeholder='Phone',name = 'phone')
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Phone', name = 'phone')
 
   .mb-3
     label.form-label(for='formGroupExampleInput2') Change Address
-    input#formGroupExampleInput2.form-control(type='text', placeholder='Address',name = 'address')
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Address', name = 'address')
 
   .mb-3
     label.form-label(for='formGroupExampleInput2') Github link
-    input#formGroupExampleInput2.form-control(type='text', placeholder='Github',name = 'github')
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Github', name = 'github')
 
   .mb-3
     label.form-label(for='formGroupExampleInput2') Twitter Link
-    input#formGroupExampleInput2.form-control(type='text', placeholder='Twitter',name = 'twitter')
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Twitter', name = 'twitter')
 
   .mb-3
     label.form-label(for='formGroupExampleInput2') Instagram Link
-    input#formGroupExampleInput2.form-control(type='text', placeholder='Instagram',name = 'instagram')
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Instagram', name = 'instagram')
 
   .mb-3
     label.form-label(for='formGroupExampleInput2') Facebook link
-    input#formGroupExampleInput2.form-control(type='text', placeholder='Facebook',name = 'facebook')
+    input#formGroupExampleInput2.form-control(type='text', placeholder='Facebook', name = 'facebook')
     br
     input(type='submit', value="Submit Changes")
 

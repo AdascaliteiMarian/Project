@@ -125,6 +125,8 @@ router.get('/user-profile', function(req, res){
         facebook = result[0].facebook;
         instagram = result[0].instagram;
         twitter = result[0].twitter;
+        phone = result[0].phone;
+        address = result[0].address;
     })
     con.query('INSERT INTO helper(yesterday) VALUES(?)', [today], function(err, result){
         if(err) throw err
@@ -138,8 +140,6 @@ router.get('/user-profile', function(req, res){
         number_of_entries = result[0].cnt;
     })
     con.query('SELECT graph_label_date FROM calendar WHERE person_name = ? ORDER BY event_date DESC', [USER_NAME], function(err, result){
-        console.log(number_of_entries)
-        console.log(result)
         for(var i = 0; i < number_of_entries; ++i){
             if(result[i] != " " || number_of_entries > 0){
                 graph_labels[i] = result[i].graph_label_date;
@@ -163,10 +163,7 @@ router.get('/user-profile', function(req, res){
         }
     })
     con.query('SELECT * FROM users WHERE name = ?', [USER_NAME], function(err, result){
-        phone = result[0].phone;
-        address = result[0].address;
         last_meals = result[0].Consumed;
-        console.log(last_meals);
     })
     if(count > 0){
         calories_counted = 0;
@@ -184,7 +181,6 @@ router.get('/user-profile', function(req, res){
 router.post('/add-user-calories', function(req, res){
     var food_name = req.body.example;
     var result1 = copiedFood;
-    console.log(food_name)
     con.query('SELECT kilocalories FROM foods WHERE foodname= ?', [food_name], function(err, result2){
         if(err) throw err
         if(count == 0){
@@ -200,7 +196,6 @@ router.post('/add-user-calories', function(req, res){
 })
 /* Show calories consumed */
 router.post('/user-consumed', function(req, res){
-    console.log(all_food_names);
     con.query('UPDATE users SET consumed = ? WHERE Name = ?', [all_food_names, req.session.l_username], function(err, result){
         if(err) throw err
         res.redirect('/user-profile');
@@ -238,58 +233,35 @@ router.get('/settings', function(req, res){
     res.render('settings', {name: USER_NAME, address, title})
 })
 
-/* Chnage user info  */
-router.post('/change-settings', function(req, res){
-        let title = req.body.title
-        if(title != ""){
-            con.query('UPDATE users SET title = ? WHERE name = ?', [title, USER_NAME], function(err, result){
-                if(err) throw err
-                console.log('yes title')
-            })
-        }
-        let email = req.body.email
-        if(email != ""){
-            con.query('UPDATE users SET email = ? WHERE name = ?', [email, USER_NAME], function(err, result){
-                if(err) throw err
-            })
-        }
-        let phone = req.body.phone
-        if(phone != ""){
-            con.query('UPDATE users SET phone = ? WHERE name = ?', [phone, USER_NAME], function(err, result){
-                if(err) throw err
-            })
-        }
-        let address = req.body.address
-        if(address != ""){
-            con.query('UPDATE users SET address = ? WHERE name = ?', [address, USER_NAME], function(err, result){
-                if(err) throw err
-            })
-        }
-        let github = req.body.github
-        if(github != ""){
-            con.query('UPDATE users SET github = ? WHERE name = ?', [github, USER_NAME], function(err, result){
+/* Change user info  */
+router.post('/change-user-info', function(req, res){
+    var array_user_info = new Array()
+    array_user_info[0] = req.body.title;
+    array_user_info[1] = req.body.email;
+    array_user_info[2] = req.body.phone;
+    array_user_info[3] = req.body.address;
+    array_user_info[4] = req.body.github;
+    array_user_info[5] = req.body.instagram;
+    array_user_info[6] = req.body.facebook;
+    array_user_info[7] = req.body.twitter;
+    var all_querys =  new Array();
+    all_querys[0] = 'UPDATE users SET title = ? WHERE name = ?'
+    all_querys[1] = 'UPDATE users SET email = ? WHERE name = ?'
+    all_querys[2] = 'UPDATE users SET phone = ? WHERE name = ?'
+    all_querys[3] = 'UPDATE users SET address = ? WHERE name = ?'
+    all_querys[4] = 'UPDATE users SET github = ? WHERE name = ?'
+    all_querys[5] = 'UPDATE users SET instagram = ? WHERE name = ?'
+    all_querys[6] = 'UPDATE users SET facebook = ? WHERE name = ?'
+    all_querys[7] = 'UPDATE users SET twitter = ? WHERE name = ?'
+    for(var i = 0; i < array_user_info.length; ++i){
+        if(array_user_info[i] != ""){
+            console.log(all_querys[i] + "     " + array_user_info[i]);
+            con.query(all_querys[i],[array_user_info[i],USER_NAME],function(err,result){
                 if(err) throw err
             })
         }
-        let twitter = req.body.twitter
-        if(twitter != ""){
-            con.query('UPDATE users SET twitter = ? WHERE name = ?', [twitter, USER_NAME], function(err, result){
-                if(err) throw err
-            })
-        }
-        let instagram = req.body.instagram
-        if(instagram != ""){
-            con.query('UPDATE users SET instagram = ? WHERE name = ?', [instagram, USER_NAME], function(err, result){
-                if(err) throw err
-            })
-        }
-        let facebook = req.body.facebook
-        if(facebook != ""){
-            con.query('UPDATE users SET facebook = ? WHERE name = ?', [facebook, USER_NAME], function(err, result){
-                if(err) throw err
-            })
-        }
-        res.redirect('/user-profile')
+    }
+    res.redirect('/user-profile')
 })
 
   module.exports = router;
