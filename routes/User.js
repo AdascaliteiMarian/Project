@@ -62,6 +62,13 @@ router.post('/', function(req, res){
     }, 1000) 
 });
 
+/* Logout Request */
+router.post('/', function(req, res){
+    req.session.destroy(function(){
+   })
+    res.redirect('/');
+})/* Logout Request */
+
 /* Render register page  */
 router.get('/register', function(req, res, next) {
     res.render('Register_Page', {wrong_register});
@@ -262,4 +269,4 @@ router.post('/change-user-info', function(req, res){
     res.redirect('/user-profile')
 })
 
-  module.exports = router;
+module.exports = router;

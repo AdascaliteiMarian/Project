@@ -13,13 +13,6 @@ router.get('/', function(req, res){
     }
 })
 
-/* Logout Request */
-router.post('/', function(req, res){
-     req.session.destroy(function(){
-    })
-     res.redirect('/');
-})
-
  /* Render Food List */
 router.get('/list', function(req, res){
     con.query('SELECT * FROM foods', function(err, result){
@@ -59,7 +52,6 @@ router.post('/add' ,function(req, res){
 router.get('/sort-alpha', function(req, res){
      con.query('SELECT * FROM foods ORDER BY foodname', function(err, result){
          res.render('food_list', {result});
-         console.log("List sorted Alphabetically");
      })
 })
 
@@ -67,7 +59,6 @@ router.get('/sort-alpha', function(req, res){
 router.get('/sort-by-least-calories', function(req, res){
     con.query('SELECT * FROM foods ORDER BY kilocalories', function(err, result){
         res.render('food_list', {result});
-        console.log("List sorted by number of calories");
     })
 })
 
@@ -75,7 +66,6 @@ router.get('/sort-by-least-calories', function(req, res){
 router.get('/sort-by-most-calories', function(req, res){
     con.query('SELECT * FROM foods ORDER BY kilocalories DESC', function(err, result){
         res.render('food_list', {result});
-        console.log("List sorted by number of calories");
     })
 })
 
