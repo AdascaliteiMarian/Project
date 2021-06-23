@@ -28,7 +28,7 @@ body
             li
                 form(action='/food/sort-by-most-calories', method="get")
                     button.dropdown-item(href='#') Most Calories
-each val in result
+each val in all_foods
         h5= val.foodname
         img(src=val.image, alt="",width='400', height='300')
         P

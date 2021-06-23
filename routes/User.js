@@ -1,44 +1,9 @@
-var express = require("express");
+var express = require('express')
 var router = express.Router();
 var con = require("../DataBase_Config");
+var foods = require("../db/food.js")
+var user = require("../db/user.js")
 var USER_NAME;
-
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0");
-var yyyy = today.getFullYear();
-today = yyyy + "-" + mm + "-" + dd;
-
-var days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-var d = new Date();
-var dayName = days[d.getDay()];
-
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-const monthName = new Date();
-var labels_for_graph =
-  dayName + " " + monthNames[monthName.getMonth()] + " " + dd;
 
 var calories = 0;
 var wrong_login;
@@ -57,7 +22,7 @@ router.post("/", function (req, res) {
   USER_NAME = l_username;
   var admin = "yes";
   con.query(
-    "SELECT  name, password FROM users WHERE name = ? AND password = ? ",
+    "SELECT name, password FROM users WHERE name = ? AND password = ? ",
     [l_username, l_password],
     function (err, result) {
       login_req_result = result.length;
@@ -146,10 +111,6 @@ var facebook;
 var instagram;
 var twitter;
 
-var last_tracked_date = 0;
-var helper_date = 0;
-var flag_variable = 0;
-var number_of_entries = 0;
 var graph_labels = new Array();
 var calories_on_date = 0;
 var graph = new Array();
@@ -177,74 +138,22 @@ router.get("/user-profile", function (req, res) {
       address = result[0].address;
     }
   );
-  con.query(
-    "INSERT INTO helper(yesterday) VALUES(?)",
-    [today],
-    function (err, result) {
-      if (err) throw err;
-    }
-  );
-  con.query(
-    "SELECT * FROM helper ORDER BY yesterday DESC",
-    [today],
-    function (err, result) {
-      if (err) throw err;
-      helper_date = result[0].yesterday;
-    }
-  );
-  con.query(
-    "SELECT COUNT(event_date) as cnt FROM calendar WHERE person_name = ?",
-    [USER_NAME],
-    function (err, result) {
-      if (err) throw err;
-      number_of_entries = result[0].cnt;
-    }
-  );
-  con.query(
-    "SELECT graph_label_date FROM calendar WHERE person_name = ? ORDER BY event_date DESC",
-    [USER_NAME],
-    function (err, result) {
-      for (var i = 0; i < number_of_entries; ++i) {
-        if (result[i] != " " || number_of_entries > 0) {
-          graph_labels[i] = result[i].graph_label_date;
-        } else {
-          graph_labels[i] = "No date registered";
-        }
-      }
-    }
-  );
-  con.query(
-    "SELECT * FROM calendar WHERE person_name = ? ORDER BY event_date DESC",
-    [USER_NAME],
-    function (err, result) {
-      if (err) throw err;
-      for (var i = 0; i < number_of_entries; ++i) {
-        if (result[i].calories != " ") {
-          graph[i] = result[i].calories;
-        } else {
-          graph[i] = 0;
-        }
-      }
-      last_tracked_date = result[0].event_date;
-      if (helper_date.toString() == last_tracked_date.toString()) {
-        flag_variable = 1;
-      }
-    }
-  );
-  con.query(
-    "SELECT * FROM users WHERE name = ?",
-    [USER_NAME],
-    function (err, result) {
-      last_meals = result[0].Consumed;
-    }
-  );
+  helper_date = user.helper();
+  number_of_entries = user.helper_1();
+  graph_labels = user.helper_2();
+  var graph_info = user.helper_3();
+  last_meals = user.helper_4();
+  graph = graph_info.graph;
+  last_tracked_date = graph_info.last_tracked_date;
+  flag_variable = graph_info.flag_variable;
   if (count > 0) {
     calories_counted = 0;
   }
   count = 0;
   all_food_names = "";
   let result2 = "";
-  con.query("SELECT * FROM foods ORDER BY foodname", function (err, result1) {
+  var result1 = foods.getFood()
+  setTimeout(() => {
     res.render("User_Profile", {
       name: req.session.l_username,
       result1,
@@ -262,8 +171,8 @@ router.get("/user-profile", function (req, res) {
       instagram,
       twitter,
     });
+  },1000)
     copiedFood = result1;
-  });
 });
 
 /* Add up calories and show the food that was added */
@@ -306,38 +215,8 @@ router.post("/add-user-calories", function (req, res) {
 });
 /* Show calories consumed */
 router.post("/user-consumed", function (req, res) {
-  con.query(
-    "UPDATE users SET consumed = ? WHERE Name = ?",
-    [all_food_names, req.session.l_username],
-    function (err, result) {
-      if (err) throw err;
-      res.redirect("/user-profile");
-    }
-  );
-  if (flag_variable == 0) {
-    con.query(
-      "INSERT INTO calendar(person_name, event_date, calories, graph_label_date) VALUES(?, ?, ?, ?)",
-      [USER_NAME, today, calories_counted, labels_for_graph],
-      function (err, result) {
-        if (err) throw err;
-      }
-    );
-  } else {
-    con.query(
-      "DELETE FROM calendar WHERE event_date = ? AND person_name = ? ",
-      [today, USER_NAME],
-      function (err, result) {
-        if (err) throw err;
-      }
-    );
-    con.query(
-      "INSERT INTO calendar(person_name, event_date, calories, graph_label_date) VALUES(?, ?, ?, ?)",
-      [USER_NAME, today, calories_counted, labels_for_graph],
-      function (err, result) {
-        if (err) throw err;
-      }
-    );
-  }
+  user.helper_5();
+  res.redirect("/user-profile");
 });
 
 /* Show calories on date */
@@ -397,4 +276,19 @@ router.post("/change-user-info", function (req, res) {
   res.redirect("/user-profile");
 });
 
+const user1 = () => {
+  return USER_NAME;
+}
+
+const caloriesCounted = () => {
+  return calories_counted;
+}
+
+const allFoods = () => {
+  return all_food_names;
+}
+
+exports.allFoods = allFoods;
+exports.caloriesCounted = caloriesCounted;
+exports.user1 = user1;
 module.exports = router;

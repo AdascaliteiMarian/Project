@@ -1,6 +1,8 @@
-var express = require("express");
+var express = require('express')
 var router = express.Router();
 var con = require("../DataBase_Config");
+var foods = require('../db/food.js')
+
 
 /* Render Home page */
 var warning_not_admin;
@@ -9,15 +11,14 @@ router.get("/", function (req, res) {
     USER_NAME = req.session.l_username;
     res.render("Home_Page", { warning_not_admin });
   } else {
-    res.set("Content-Type", "text/plain");
+    res.set("Content-Type", "text/plain"); 
   }
 });
 
 /* Render Food List */
 router.get("/list", function (req, res) {
-  con.query("SELECT * FROM foods", function (err, result) {
-    res.render("food_list", { result });
-  });
+  let all_foods = foods.getFood()
+    res.render("food_list", { all_foods });
 });
 
 /* Add food to DB */
@@ -69,29 +70,22 @@ router.post("/add", function (req, res) {
 
 /* Sort Food List by Alphabetical Order */
 router.get("/sort-alpha", function (req, res) {
-  con.query("SELECT * FROM foods ORDER BY foodname", function (err, result) {
-    res.render("food_list", { result });
-  });
+    let all_foods = foods.sortFoodAlph();
+    res.render("food_list", { all_foods });
 });
 
 /* Sort Food List by number of least Calories*/
 router.get("/sort-by-least-calories", function (req, res) {
-  con.query(
-    "SELECT * FROM foods ORDER BY kilocalories",
-    function (err, result) {
-      res.render("food_list", { result });
-    }
-  );
+    let all_foods = foods.sortFoodByCalories();
+      res.render("food_list", { all_foods });
 });
 
 /* Sort Food List by number of most Calories*/
 router.get("/sort-by-most-calories", function (req, res) {
-  con.query(
-    "SELECT * FROM foods ORDER BY kilocalories DESC",
-    function (err, result) {
-      res.render("food_list", { result });
-    }
-  );
+    let all_foods = foods.sortFoodByLeastCalories();
+      res.render("food_list", { all_foods });
 });
 
+
 module.exports = router;
+
