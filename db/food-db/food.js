@@ -1,4 +1,4 @@
-var con = require("../DataBase_Config");
+var con = require("../../DataBase_Config");
 var food;
 var food_sorted_alph;
 var food_sorted_by_calories;

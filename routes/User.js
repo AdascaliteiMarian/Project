@@ -1,8 +1,8 @@
 var express = require('express')
 var router = express.Router();
 var con = require("../DataBase_Config");
-var foods = require("../db/food.js")
-var user = require("../db/user.js")
+var foods = require("../db//food-db/food.js")
+var user = require("../db/user-db/user.js")
 var USER_NAME;
 
 var calories = 0;
@@ -153,7 +153,6 @@ router.get("/user-profile", function (req, res) {
   all_food_names = "";
   let result2 = "";
   var result1 = foods.getFood()
-  setTimeout(() => {
     res.render("User_Profile", {
       name: req.session.l_username,
       result1,
@@ -171,7 +170,6 @@ router.get("/user-profile", function (req, res) {
       instagram,
       twitter,
     });
-  },1000)
     copiedFood = result1;
 });
 

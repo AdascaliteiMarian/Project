@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router();
 var con = require("../DataBase_Config");
-var foods = require('../db/food.js')
+var foods = require('../db/food-db/food.js')
 
 
 /* Render Home page */

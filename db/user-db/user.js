@@ -1,5 +1,5 @@
-var con = require("../DataBase_Config");
-var user1 = require("../routes/User");
+var con = require("../../DataBase_Config");
+var user1 = require("../../routes/User");
 var helper_date = 0;
 var number_of_entries = 0;
 var graph_labels = new Array;
