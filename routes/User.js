@@ -16,20 +16,35 @@ router.get("/", function (req, res) {
 
 /* Login request */
 router.post("/", function (req, res) {
-  var login_req_result;
+  var login_req_result = 0;
   var l_username = req.body.l_username;
   var l_password = req.body.l_password;
   USER_NAME = l_username;
   var admin = "yes";
-  con.query(
-    "SELECT name, password FROM users WHERE name = ? AND password = ? ",
-    [l_username, l_password],
-    function (err, result) {
-      login_req_result = result.length;
+  async function login(){
+    const mysql = require('mysql2/promise');
+    const conn = await mysql.createConnection({ 
+      multipleStatements: true,
+      host: "localhost",
+      user: "root",
+      password: "password",
+      database: "accounts" 
+    });
+    login_req_result = await conn.execute("SELECT name, password FROM users WHERE name = ? AND password = ? ",
+      [l_username, l_password],)
+      console.log(login_req_result[0].length)
+      console.log(login_req_result[0])
+    await conn.end();
+  }
+  login().then(
+    (onResolved) => {
+      login1()
     }
   );
-  setTimeout(() => {
-    if (login_req_result == 1) {
+  function login1(){
+    console.log(login_req_result.length + " inainte")
+    if (login_req_result[0].length == 1) {
+      console.log(login_req_result.length + "loggedin")
       req.session.loggedin = true;
       req.session.l_username = l_username;
       con.query(
@@ -47,14 +62,14 @@ router.post("/", function (req, res) {
         }
       );
     } else {
-      wrong_login = "Incorrect Username Or Password";
-      res.redirect("/");
+      wrong_login = "Wrong Username or Password"
+      res.redirect('/')
     }
-  }, 1000);
-});
+  }
+})
 
 /* Logout Request */
-router.post("/", function (req, res) {
+router.post("/logout", function (req, res) {
   req.session.destroy(function () {});
   res.redirect("/");
 }); /* Logout Request */
