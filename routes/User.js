@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router();
 var con = require("../DataBase_Config");
-var foods = require("../db//food-db/food.js")
+var foods = require("../db/food-db/food.js")
 var user = require("../db/user-db/user.js")
 var USER_NAME;
 
@@ -62,8 +62,8 @@ router.post("/", function (req, res) {
         }
       );
     } else {
-      wrong_login = "Wrong Username or Password"
-      res.redirect('/')
+      wrong_login = "Wrong Username or Password";
+      res.redirect('/');
     }
   }
 })

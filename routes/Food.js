@@ -17,8 +17,8 @@ router.get("/", function (req, res) {
 
 /* Render Food List */
 router.get("/list", function (req, res) {
-  let all_foods = foods.getFood()
-    res.render("food_list", { all_foods });
+  let all_foods = foods.getFood();
+  res.render("food_list", { all_foods });
 });
 
 /* Add food to DB */

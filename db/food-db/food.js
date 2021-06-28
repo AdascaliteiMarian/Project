@@ -26,15 +26,15 @@ const getFood = () => {
 }
 
 const sortFoodAlph = () => {
-    return food_sorted_alph
+    return food_sorted_alph;
 }
 
 const sortFoodByCalories = () => {
-    return food_sorted_by_calories
+    return food_sorted_by_calories;
 }
 
 const sortFoodByLeastCalories = () => {
-    return food_sorted_by_least_calories
+    return food_sorted_by_least_calories;
 }
 
 exports.getFood = getFood;
