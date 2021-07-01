@@ -1,8 +1,8 @@
-var express = require('express')
+var express = require("express");
 var router = express.Router();
 var con = require("../DataBase_Config");
-var foods = require("../db/food-db/food.js")
-var user = require("../db/user-db/user.js")
+var foods = require("../db/food-db/food.js");
+var user = require("../db/user-db/user.js");
 var USER_NAME;
 
 var calories = 0;
@@ -21,30 +21,26 @@ router.post("/", function (req, res) {
   var l_password = req.body.l_password;
   USER_NAME = l_username;
   var admin = "yes";
-  async function login(){
-    const mysql = require('mysql2/promise');
-    const conn = await mysql.createConnection({ 
+  async function login() {
+    const mysql = require("mysql2/promise");
+    const conn = await mysql.createConnection({
       multipleStatements: true,
       host: "localhost",
       user: "root",
       password: "password",
-      database: "accounts" 
+      database: "accounts",
     });
-    login_req_result = await conn.execute("SELECT name, password FROM users WHERE name = ? AND password = ? ",
-      [l_username, l_password],)
-      console.log(login_req_result[0].length)
-      console.log(login_req_result[0])
+    login_req_result = await conn.execute(
+      "SELECT name, password FROM users WHERE name = ? AND password = ? ",
+      [l_username, l_password]
+    );
     await conn.end();
   }
-  login().then(
-    (onResolved) => {
-      login1()
-    }
-  );
-  function login1(){
-    console.log(login_req_result.length + " inainte")
+  login().then((onResolved) => {
+    resultCheck();
+  });
+  function resultCheck() {
     if (login_req_result[0].length == 1) {
-      console.log(login_req_result.length + "loggedin")
       req.session.loggedin = true;
       req.session.l_username = l_username;
       con.query(
@@ -63,10 +59,10 @@ router.post("/", function (req, res) {
       );
     } else {
       wrong_login = "Wrong Username or Password";
-      res.redirect('/');
+      res.redirect("/");
     }
   }
-})
+});
 
 /* Logout Request */
 router.post("/logout", function (req, res) {
@@ -154,10 +150,10 @@ router.get("/user-profile", function (req, res) {
     }
   );
   helper_date = user.helper();
-  number_of_entries = user.helper_1();
-  graph_labels = user.helper_2();
-  var graph_info = user.helper_3();
-  last_meals = user.helper_4();
+  number_of_entries = user.helper1();
+  graph_labels = user.helper2();
+  var graph_info = user.helper3();
+  last_meals = user.helper4();
   graph = graph_info.graph;
   last_tracked_date = graph_info.last_tracked_date;
   flag_variable = graph_info.flag_variable;
@@ -167,25 +163,25 @@ router.get("/user-profile", function (req, res) {
   count = 0;
   all_food_names = "";
   let result2 = "";
-  var result1 = foods.getFood()
-    res.render("User_Profile", {
-      name: req.session.l_username,
-      result1,
-      result2,
-      last_meals,
-      address,
-      phone,
-      calories_on_date,
-      graph,
-      graph_labels,
-      title,
-      email,
-      github,
-      facebook,
-      instagram,
-      twitter,
-    });
-    copiedFood = result1;
+  var result1 = foods.getFood();
+  res.render("User_Profile", {
+    name: req.session.l_username,
+    result1,
+    result2,
+    last_meals,
+    address,
+    phone,
+    calories_on_date,
+    graph,
+    graph_labels,
+    title,
+    email,
+    github,
+    facebook,
+    instagram,
+    twitter,
+  });
+  copiedFood = result1;
 });
 
 /* Add up calories and show the food that was added */
@@ -228,7 +224,7 @@ router.post("/add-user-calories", function (req, res) {
 });
 /* Show calories consumed */
 router.post("/user-consumed", function (req, res) {
-  user.helper_5();
+  user.helper5();
   res.redirect("/user-profile");
 });
 
@@ -291,15 +287,15 @@ router.post("/change-user-info", function (req, res) {
 
 const user1 = () => {
   return USER_NAME;
-}
+};
 
 const caloriesCounted = () => {
   return calories_counted;
-}
+};
 
 const allFoods = () => {
   return all_food_names;
-}
+};
 
 exports.allFoods = allFoods;
 exports.caloriesCounted = caloriesCounted;
