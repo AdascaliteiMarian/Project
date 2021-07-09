@@ -23,6 +23,28 @@ con.query(
   }
 );
 
+const insertFood = (
+  foodname,
+  kilocalories,
+  proteins,
+  lipid,
+  carbohydrates,
+  water,
+  comment
+) => {
+  con.query(
+    "INSERT INTO foods(foodname, kilocalories, proteins, lipid, carbohydrates, water, comment) VALUES(?, ?, ?, ?, ?, ?, ?)",
+    [foodname, kilocalories, proteins, lipid, carbohydrates, water, comment],
+    function (err, result) {
+      if (err) {
+        return 0;
+      } else {
+        console.log("food inserted");
+      }
+    }
+  );
+};
+
 const getFood = () => {
   return food;
 };
@@ -43,3 +65,4 @@ exports.getFood = getFood;
 exports.sortFoodAlph = sortFoodAlph;
 exports.sortFoodByCalories = sortFoodByCalories;
 exports.sortFoodByLeastCalories = sortFoodByLeastCalories;
+exports.insertFood = insertFood;

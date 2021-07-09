@@ -11,6 +11,16 @@ var all_food_names = new Array();
 var calories_counted = 0;
 var graph_labels = new Array();
 var d = new Date();
+var info = {
+  title: "",
+  email: "",
+  github: "",
+  facebook: "",
+  instagram: "",
+  twitter: "",
+  phone: "",
+  address: "",
+};
 var days = [
   "Sunday",
   "Monday",
@@ -63,10 +73,10 @@ const helper = () => {
   return helper_date;
 };
 
-const helper1 = () => {
+const getNumberOfEntries = () => {
   con.query(
     "SELECT COUNT(event_date) as cnt FROM calendar WHERE person_name = ?",
-    [USER_NAME],
+    [user1.user1()],
     function (err, result) {
       if (err) throw err;
       number_of_entries = result[0].cnt;
@@ -75,10 +85,10 @@ const helper1 = () => {
   return number_of_entries;
 };
 
-const helper2 = () => {
+const getGraphLabels = () => {
   con.query(
     "SELECT graph_label_date FROM calendar WHERE person_name = ? ORDER BY event_date DESC",
-    [USER_NAME],
+    [user1.user1()],
     function (err, result) {
       for (var i = 0; i < number_of_entries; ++i) {
         if (result[i] != " " || number_of_entries > 0) {
@@ -92,10 +102,10 @@ const helper2 = () => {
   return graph_labels;
 };
 
-const helper3 = () => {
+const getGraphInfo = () => {
   con.query(
     "SELECT * FROM calendar WHERE person_name = ? ORDER BY event_date DESC",
-    [USER_NAME],
+    [user1.user1()],
     function (err, result) {
       if (err) throw err;
       for (var i = 0; i < number_of_entries; ++i) {
@@ -119,7 +129,7 @@ const helper3 = () => {
   return graph_helper;
 };
 
-const helper4 = () => {
+const getLastMeals = () => {
   con.query(
     "SELECT * FROM users WHERE name = ?",
     [user1.user1()],
@@ -130,7 +140,7 @@ const helper4 = () => {
   return last_meals;
 };
 
-const helper5 = () => {
+const getupdatedGraph = () => {
   calories_counted = user1.caloriesCounted();
   all_food_names = user1.allFoods();
   con.query(
@@ -166,9 +176,133 @@ const helper5 = () => {
   }
 };
 
+const registerUser = (username, password, admin, calories) => {
+  con.query(
+    "INSERT INTO users (name, password, IsAdmin) VALUES(?, ?, ?)",
+    [username, password, admin],
+    function (err, result) {
+      if (err) {
+        return 0;
+      } else {
+        con.query(
+          "INSERT INTO calendar(person_name, event_date, calories) VALUES(?, ?, ?)",
+          [username, today, calories],
+          function (err, result) {
+            if (err) throw err;
+          }
+        );
+        console.log(
+          "User: " +
+            username +
+            " with the password: " +
+            password +
+            " was inserted into the database. Admin :" +
+            admin
+        );
+      }
+    }
+  );
+};
+
+const getUserInfo = () => {
+  async function selectInfo() {
+    const mysql = require("mysql2/promise");
+    const conn = await mysql.createConnection({
+      multipleStatements: true,
+      host: "localhost",
+      user: "root",
+      password: "password",
+      database: "accounts",
+    });
+    result = await conn.execute("SELECT * FROM users WHERE name = ?", [
+      user1.user1(),
+    ]);
+    var usertitle = result[0];
+    info.title = usertitle[0].title;
+    info.address = usertitle[0].address;
+    info.phone = usertitle[0].phone;
+    info.github = usertitle[0].github;
+    info.facebook = usertitle[0].facebook;
+    info.twitter = usertitle[0].twitter;
+    info.instagram = usertitle[0].instagram;
+    info.email = usertitle[0].email;
+    await conn.end();
+  }
+  selectInfo();
+};
+
+const getInfo = () => {
+  return info;
+};
+
+const getSelectedCalories = (food_name) => {
+  return new Promise(function (resolve, reject) {
+    con.query(
+      "SELECT kilocalories FROM foods WHERE foodname= ?",
+      [food_name],
+      function (err, result) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(result[0].kilocalories);
+      }
+    );
+  });
+};
+
+const changeUserInfo = (array_user_info) => {
+  var all_querys = new Array();
+  all_querys[0] = "UPDATE users SET title = ? WHERE name = ?";
+  all_querys[1] = "UPDATE users SET email = ? WHERE name = ?";
+  all_querys[2] = "UPDATE users SET phone = ? WHERE name = ?";
+  all_querys[3] = "UPDATE users SET address = ? WHERE name = ?";
+  all_querys[4] = "UPDATE users SET github = ? WHERE name = ?";
+  all_querys[5] = "UPDATE users SET instagram = ? WHERE name = ?";
+  all_querys[6] = "UPDATE users SET facebook = ? WHERE name = ?";
+  all_querys[7] = "UPDATE users SET twitter = ? WHERE name = ?";
+  for (var i = 0; i < array_user_info.length; ++i) {
+    if (array_user_info[i] != "") {
+      con.query(
+        all_querys[i],
+        [array_user_info[i], user1.user1()],
+        function (err, result) {
+          if (err) throw err;
+        }
+      );
+    }
+  }
+};
+
+const showCaloriesOnDate = (calendar_date) => {
+  return new Promise(function (resolve, reject) {
+    var calories_on_date = 0;
+    con.query(
+      "SELECT calories FROM calendar WHERE person_name = ? AND event_date = ?",
+      [user1.user1(), calendar_date],
+      function (err, result) {
+        if (err) {
+          reject(err);
+        }
+        if (result != "") {
+          calories_on_date = result[0].calories;
+        } else {
+          calories_on_date = 0;
+        }
+        resolve(calories_on_date);
+      }
+    );
+  });
+};
+
 exports.helper = helper;
-exports.helper1 = helper1;
-exports.helper2 = helper2;
-exports.helper3 = helper3;
-exports.helper4 = helper4;
-exports.helper5 = helper5;
+exports.getNumberOfEntries = getNumberOfEntries;
+exports.getGraphLabels = getGraphLabels;
+exports.getGraphInfo = getGraphInfo;
+exports.getLastMeals = getLastMeals;
+exports.getupdatedGraph = getupdatedGraph;
+exports.registerUser = registerUser;
+exports.getUserInfo = getUserInfo;
+exports.getInfo = getInfo;
+exports.getSelectedCalories = getSelectedCalories;
+exports.changeUserInfo = changeUserInfo;
+exports.showCaloriesOnDate = showCaloriesOnDate;

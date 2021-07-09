@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var con = require("../DataBase_Config");
 var foods = require("../db/food-db/food.js");
 
 /* Render Home page */
@@ -42,23 +41,20 @@ router.post("/add", function (req, res) {
       let warning_inputs = "You have to fill every input";
       res.render("Home_Page", { warning_inputs });
     } else {
-      con.query(
-        "INSERT INTO foods(foodname, kilocalories, proteins, lipid, carbohydrates, water, comment) VALUES(?, ?, ?, ?, ?, ?, ?)",
-        [
+      if (
+        foods.insertFood(
           foodname,
           kilocalories,
           proteins,
           lipid,
           carbohydrates,
           water,
-          comment,
-        ],
-        function (err, result) {
-          if (err) {
-            res.render("Home_Page", { letters_instead });
-          }
-        }
-      );
+          comment
+        ) != 0
+      ) {
+      } else {
+        res.render("Home_Page", { letters_instead });
+      }
     }
     res.redirect("/food/list");
   } else {
