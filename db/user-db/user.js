@@ -1,6 +1,5 @@
 const { InsufficientStorage } = require("http-errors");
 var con = require("../../DataBase_Config");
-var user1 = require("../../routes/User");
 var helper_date = 0;
 var number_of_entries = 0;
 var graph = new Array();
@@ -73,22 +72,21 @@ const helper = () => {
   return helper_date;
 };
 
-const getNumberOfEntries = () => {
+const getNumberOfEntries = (username) => {
   con.query(
     "SELECT COUNT(event_date) as cnt FROM calendar WHERE person_name = ?",
-    [user1.user1()],
+    [username],
     function (err, result) {
       if (err) throw err;
       number_of_entries = result[0].cnt;
     }
   );
-  return number_of_entries;
 };
 
-const getGraphLabels = () => {
+const getGraphLabels = (username) => {
   con.query(
     "SELECT graph_label_date FROM calendar WHERE person_name = ? ORDER BY event_date DESC",
-    [user1.user1()],
+    [username],
     function (err, result) {
       for (var i = 0; i < number_of_entries; ++i) {
         if (result[i] != " " || number_of_entries > 0) {
@@ -102,10 +100,10 @@ const getGraphLabels = () => {
   return graph_labels;
 };
 
-const getGraphInfo = () => {
+const getGraphInfo = (username) => {
   con.query(
     "SELECT * FROM calendar WHERE person_name = ? ORDER BY event_date DESC",
-    [user1.user1()],
+    [username],
     function (err, result) {
       if (err) throw err;
       for (var i = 0; i < number_of_entries; ++i) {
@@ -121,18 +119,14 @@ const getGraphInfo = () => {
       }
     }
   );
-  var graph_helper = {
-    graph: graph,
-    last_tracked_date: last_tracked_date,
-    flag_variable: flag_variable,
-  };
-  return graph_helper;
+
+  return graph;
 };
 
-const getLastMeals = () => {
+const getLastMeals = (username) => {
   con.query(
     "SELECT * FROM users WHERE name = ?",
-    [user1.user1()],
+    [username],
     function (err, result) {
       last_meals = result[0].Consumed;
     }
@@ -140,12 +134,10 @@ const getLastMeals = () => {
   return last_meals;
 };
 
-const getupdatedGraph = () => {
-  calories_counted = user1.caloriesCounted();
-  all_food_names = user1.allFoods();
+const getupdatedGraph = (username, calories_counted, all_food_names) => {
   con.query(
     "UPDATE users SET consumed = ? WHERE Name = ?",
-    [all_food_names, user1.user1()],
+    [all_food_names, username],
     function (err, result) {
       if (err) throw err;
     }
@@ -153,7 +145,7 @@ const getupdatedGraph = () => {
   if (flag_variable == 0) {
     con.query(
       "INSERT INTO calendar(person_name, event_date, calories, graph_label_date) VALUES(?, ?, ?, ?)",
-      [user1.user1(), today, calories_counted, labels_for_graph],
+      [username, today, calories_counted, labels_for_graph],
       function (err, result) {
         if (err) throw err;
       }
@@ -161,14 +153,14 @@ const getupdatedGraph = () => {
   } else {
     con.query(
       "DELETE FROM calendar WHERE event_date = ? AND person_name = ? ",
-      [today, user1.user1()],
+      [today, username],
       function (err, result) {
         if (err) throw err;
       }
     );
     con.query(
       "INSERT INTO calendar(person_name, event_date, calories, graph_label_date) VALUES(?, ?, ?, ?)",
-      [user1.user1(), today, calories_counted, labels_for_graph],
+      [username, today, calories_counted, labels_for_graph],
       function (err, result) {
         if (err) throw err;
       }
@@ -204,7 +196,7 @@ const registerUser = (username, password, admin, calories) => {
   );
 };
 
-const getUserInfo = () => {
+const getUserInfo = (username) => {
   async function selectInfo() {
     const mysql = require("mysql2/promise");
     const conn = await mysql.createConnection({
@@ -215,7 +207,7 @@ const getUserInfo = () => {
       database: "accounts",
     });
     result = await conn.execute("SELECT * FROM users WHERE name = ?", [
-      user1.user1(),
+      username,
     ]);
     var usertitle = result[0];
     info.title = usertitle[0].title;
@@ -250,7 +242,7 @@ const getSelectedCalories = (food_name) => {
   });
 };
 
-const changeUserInfo = (array_user_info) => {
+const changeUserInfo = (array_user_info,username) => {
   var all_querys = new Array();
   all_querys[0] = "UPDATE users SET title = ? WHERE name = ?";
   all_querys[1] = "UPDATE users SET email = ? WHERE name = ?";
@@ -264,7 +256,7 @@ const changeUserInfo = (array_user_info) => {
     if (array_user_info[i] != "") {
       con.query(
         all_querys[i],
-        [array_user_info[i], user1.user1()],
+        [array_user_info[i], username],
         function (err, result) {
           if (err) throw err;
         }
@@ -273,12 +265,12 @@ const changeUserInfo = (array_user_info) => {
   }
 };
 
-const showCaloriesOnDate = (calendar_date) => {
+const showCaloriesOnDate = (calendar_date,username) => {
   return new Promise(function (resolve, reject) {
     var calories_on_date = 0;
     con.query(
       "SELECT calories FROM calendar WHERE person_name = ? AND event_date = ?",
-      [user1.user1(), calendar_date],
+      [username, calendar_date],
       function (err, result) {
         if (err) {
           reject(err);
@@ -294,6 +286,20 @@ const showCaloriesOnDate = (calendar_date) => {
   });
 };
 
+const searchForUser = (l_username, l_password) => {
+  return new Promise(function (resolve, reject){
+    con.query( "SELECT name, password FROM users WHERE name = ? AND password = ? ",
+    [l_username, l_password],
+    function (err, result) {
+      if(err) {
+        reject(err);
+      }
+      resolve(result);
+    }
+    );
+  })
+}
+
 exports.helper = helper;
 exports.getNumberOfEntries = getNumberOfEntries;
 exports.getGraphLabels = getGraphLabels;
@@ -306,3 +312,4 @@ exports.getInfo = getInfo;
 exports.getSelectedCalories = getSelectedCalories;
 exports.changeUserInfo = changeUserInfo;
 exports.showCaloriesOnDate = showCaloriesOnDate;
+exports.searchForUser = searchForUser;
