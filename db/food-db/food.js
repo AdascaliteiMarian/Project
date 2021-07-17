@@ -1,8 +1,8 @@
-var con = require("../../DataBase_Config");
-var food;
-var food_sorted_alph;
-var food_sorted_by_calories;
-var food_sorted_by_least_calories;
+const con = require("../../DataBase_Config");
+let food;
+let food_sorted_alph;
+let food_sorted_by_calories;
+let food_sorted_by_least_calories;
 
 con.query("SELECT * FROM foods", function (err, result) {
   food = result;

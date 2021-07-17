@@ -1,16 +1,13 @@
-const { InsufficientStorage } = require("http-errors");
-var con = require("../../DataBase_Config");
-var helper_date = 0;
-var number_of_entries = 0;
-var graph = new Array();
-var last_tracked_date;
-var flag_variable = 0;
-var last_meals = new Array();
-var all_food_names = new Array();
-var calories_counted = 0;
-var graph_labels = new Array();
-var d = new Date();
-var info = {
+const con = require("../../DataBase_Config");
+let helper_date = 0;
+let number_of_entries = 0;
+let graph = new Array();
+let last_tracked_date;
+let flag = 0;
+let last_meals = new Array();
+let graph_labels = new Array();
+let d = new Date();
+const info = {
   title: "",
   email: "",
   github: "",
@@ -20,7 +17,7 @@ var info = {
   phone: "",
   address: "",
 };
-var days = [
+const days = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -43,14 +40,14 @@ const monthNames = [
   "November",
   "December",
 ];
-var dayName = days[d.getDay()];
+let dayName = days[d.getDay()];
 const monthName = new Date();
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0");
-var yyyy = today.getFullYear();
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, "0");
+let mm = String(today.getMonth() + 1).padStart(2, "0");
+let yyyy = today.getFullYear();
 today = yyyy + "-" + mm + "-" + dd;
-var labels_for_graph =
+let labels_for_graph =
   dayName + " " + monthNames[monthName.getMonth()] + " " + dd;
 
 const helper = () => {
@@ -88,7 +85,7 @@ const getGraphLabels = (username) => {
     "SELECT graph_label_date FROM calendar WHERE person_name = ? ORDER BY event_date DESC",
     [username],
     function (err, result) {
-      for (var i = 0; i < number_of_entries; ++i) {
+      for (let i = 0; i < number_of_entries; ++i) {
         if (result[i] != " " || number_of_entries > 0) {
           graph_labels[i] = result[i].graph_label_date;
         } else {
@@ -106,7 +103,7 @@ const getGraphInfo = (username) => {
     [username],
     function (err, result) {
       if (err) throw err;
-      for (var i = 0; i < number_of_entries; ++i) {
+      for (let i = 0; i < number_of_entries; ++i) {
         if (result[i].calories != " ") {
           graph[i] = result[i].calories;
         } else {
@@ -115,11 +112,10 @@ const getGraphInfo = (username) => {
       }
       last_tracked_date = result[0].event_date;
       if (helper_date.toString() == last_tracked_date.toString()) {
-        flag_variable = 1;
+       flag = 1;
       }
     }
   );
-
   return graph;
 };
 
@@ -142,7 +138,7 @@ const getupdatedGraph = (username, calories_counted, all_food_names) => {
       if (err) throw err;
     }
   );
-  if (flag_variable == 0) {
+  if  (flag == 0) {
     con.query(
       "INSERT INTO calendar(person_name, event_date, calories, graph_label_date) VALUES(?, ?, ?, ?)",
       [username, today, calories_counted, labels_for_graph],
@@ -209,7 +205,7 @@ const getUserInfo = (username) => {
     result = await conn.execute("SELECT * FROM users WHERE name = ?", [
       username,
     ]);
-    var usertitle = result[0];
+    let usertitle = result[0];
     info.title = usertitle[0].title;
     info.address = usertitle[0].address;
     info.phone = usertitle[0].phone;
@@ -242,8 +238,8 @@ const getSelectedCalories = (food_name) => {
   });
 };
 
-const changeUserInfo = (array_user_info,username) => {
-  var all_querys = new Array();
+const changeUserInfo = (array_user_info, username) => {
+  let all_querys = new Array();
   all_querys[0] = "UPDATE users SET title = ? WHERE name = ?";
   all_querys[1] = "UPDATE users SET email = ? WHERE name = ?";
   all_querys[2] = "UPDATE users SET phone = ? WHERE name = ?";
@@ -252,7 +248,7 @@ const changeUserInfo = (array_user_info,username) => {
   all_querys[5] = "UPDATE users SET instagram = ? WHERE name = ?";
   all_querys[6] = "UPDATE users SET facebook = ? WHERE name = ?";
   all_querys[7] = "UPDATE users SET twitter = ? WHERE name = ?";
-  for (var i = 0; i < array_user_info.length; ++i) {
+  for (let i = 0; i < array_user_info.length; ++i) {
     if (array_user_info[i] != "") {
       con.query(
         all_querys[i],
@@ -265,9 +261,9 @@ const changeUserInfo = (array_user_info,username) => {
   }
 };
 
-const showCaloriesOnDate = (calendar_date,username) => {
+const showCaloriesOnDate = (calendar_date, username) => {
   return new Promise(function (resolve, reject) {
-    var calories_on_date = 0;
+    let calories_on_date = 0;
     con.query(
       "SELECT calories FROM calendar WHERE person_name = ? AND event_date = ?",
       [username, calendar_date],
@@ -287,18 +283,19 @@ const showCaloriesOnDate = (calendar_date,username) => {
 };
 
 const searchForUser = (l_username, l_password) => {
-  return new Promise(function (resolve, reject){
-    con.query( "SELECT name, password FROM users WHERE name = ? AND password = ? ",
-    [l_username, l_password],
-    function (err, result) {
-      if(err) {
-        reject(err);
+  return new Promise(function (resolve, reject) {
+    con.query(
+      "SELECT name, password FROM users WHERE name = ? AND password = ? ",
+      [l_username, l_password],
+      function (err, result) {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
       }
-      resolve(result);
-    }
     );
-  })
-}
+  });
+};
 
 exports.helper = helper;
 exports.getNumberOfEntries = getNumberOfEntries;

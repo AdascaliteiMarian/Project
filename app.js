@@ -1,14 +1,14 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var bodyparser = require("body-parser");
-var session = require("express-session");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const bodyparser = require("body-parser");
+const session = require("express-session");
 
-var UserRouter = require("./routes/User");
-var FoodRouter = require("./routes/Food");
+const UserRouter = require("./routes/User");
+const FoodRouter = require("./routes/Food");
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

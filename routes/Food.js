@@ -1,13 +1,12 @@
-var express = require("express");
-var router = express.Router();
-var foods = require("../db/food-db/food.js");
+const express = require("express");
+const router = express.Router();
+const foods = require("../db/food-db/food.js");
 
 /* Render Home page */
-var warning_not_admin;
 router.get("/", function (req, res) {
+  req.session.warning_not_admin = "";
   if (req.session.loggedin) {
-    USER_NAME = req.session.l_username;
-    res.render("Home_Page", { warning_not_admin });
+    res.render("Home_Page", { warning_not_admin: req.session.warning_not_admin });
   } else {
     res.set("Content-Type", "text/plain");
   }
@@ -20,8 +19,8 @@ router.get("/list", function (req, res) {
 });
 
 /* Add food to DB */
-var letters_instead = "U wrote letters where they are not supposed to go";
 router.post("/add", function (req, res) {
+  req.session.letters_instead = "U wrote letter where they are not supposed to go"
   if (req.session.isadmin == true) {
     let foodname = req.body.foodname;
     let kilocalories = req.body.kilocalories;
@@ -53,12 +52,12 @@ router.post("/add", function (req, res) {
         ) != 0
       ) {
       } else {
-        res.render("Home_Page", { letters_instead });
+        res.render("Home_Page", { letters_instead: req.session.letters_instead });
       }
     }
     res.redirect("/food/list");
   } else {
-    warning_not_admin = "You are not an admin to be able to insert foods";
+    req.session.warning_not_admin = "You are not an admin to be able to insert foods";
     res.redirect("/food");
   }
 });

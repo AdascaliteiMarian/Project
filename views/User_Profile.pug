@@ -125,21 +125,21 @@ form(action="/search-user-calories", method="post")
   p#Sunday1(value = graph_labels[6])
 
 script.
-  var Monday = document.getElementById('Monday').getAttribute('value');
-  var Tuesday = document.getElementById('Tuesday').getAttribute('value');
-  var Wednesday = document.getElementById('Wednesday').getAttribute('value');
-  var Thursday = document.getElementById('Thursday').getAttribute('value');
-  var Friday = document.getElementById('Friday').getAttribute('value');
-  var Saturday = document.getElementById('Saturday').getAttribute('value');
-  var Sunday = document.getElementById('Sunday').getAttribute('value');
+  let Monday = document.getElementById('Monday').getAttribute('value');
+  let Tuesday = document.getElementById('Tuesday').getAttribute('value');
+  let Wednesday = document.getElementById('Wednesday').getAttribute('value');
+  let Thursday = document.getElementById('Thursday').getAttribute('value');
+  let Friday = document.getElementById('Friday').getAttribute('value');
+  let Saturday = document.getElementById('Saturday').getAttribute('value');
+  let Sunday = document.getElementById('Sunday').getAttribute('value');
 
-  var Monday1 = document.getElementById('Monday1').getAttribute('value');
-  var Tuesday1 = document.getElementById('Tuesday1').getAttribute('value');
-  var Wednesday1 = document.getElementById('Wednesday1').getAttribute('value');
-  var Thursday1 = document.getElementById('Thursday1').getAttribute('value');
-  var Friday1 = document.getElementById('Friday1').getAttribute('value');
-  var Saturday1 = document.getElementById('Saturday1').getAttribute('value');
-  var Sunday1 = document.getElementById('Sunday1').getAttribute('value');
+  let Monday1 = document.getElementById('Monday1').getAttribute('value');
+  let Tuesday1 = document.getElementById('Tuesday1').getAttribute('value');
+  let Wednesday1 = document.getElementById('Wednesday1').getAttribute('value');
+  let Thursday1 = document.getElementById('Thursday1').getAttribute('value');
+  let Friday1 = document.getElementById('Friday1').getAttribute('value');
+  let Saturday1 = document.getElementById('Saturday1').getAttribute('value');
+  let Sunday1 = document.getElementById('Sunday1').getAttribute('value');
 
   const labels = [
     Sunday1,   
@@ -167,4 +167,4 @@ script.
     data,
     options:{}
   };
-  var myChart = new Chart(document.getElementById('myChart'),config);
+  let myChart = new Chart(document.getElementById('myChart'),config);
